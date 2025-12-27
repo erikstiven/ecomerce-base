@@ -22,6 +22,15 @@
             'active' => request()->routeIs('admin.options.*'),
         ],
         [
+            'header' => 'Configuración',
+        ],
+        [
+            'name' => 'Footer',
+            'icon' => 'settings',
+            'route' => route('admin.settings.footer.edit'),
+            'active' => request()->routeIs('admin.settings.footer.*'),
+        ],
+        [
             // Familias de productos
             'icon' => 'layers',
             'name' => 'Familias',

@@ -14,6 +14,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        require_once app_path('Support/helpers.php');
+
         // 1) Fuerza HTTPS en local si el request viene detrás de proxy con HTTPS
         if (app()->environment('local')) {
             $xfp = request()->header('x-forwarded-proto');

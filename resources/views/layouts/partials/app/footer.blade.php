@@ -1,3 +1,14 @@
+@php
+    $companyName = setting('name', 'HMB Sport');
+    $companyDescription = setting('footer_description', 'Taller de costura y confección en Machala.');
+    $footerEmail = setting('footer_email', 'quisniahugo@hotmail.com');
+    $facebook = setting('facebook', 'https://www.facebook.com/hmbsportt');
+    $instagram = setting('instagram', 'https://www.instagram.com/hmb_sport/');
+    $tiktok = setting('tiktok', 'https://www.tiktok.com/@hmbsport_ec?lang=es');
+    $youtube = setting('youtube');
+    $legalCompanyName = setting('legal_company_name', 'HMB Sport');
+@endphp
+
 <footer class="bg-gradient-to-r from-[#3b0764] via-[#1e3a8a] to-[#7e22ce] text-white">
     <div class="max-w-screen-xl mx-auto px-6 md:px-8 py-10 lg:py-12">
 
@@ -10,8 +21,8 @@
                 <a href="/" class="inline-flex" aria-label="Ir al inicio">
                     <img src="/img/logohmbsport.svg" alt="HMB Sport" class="h-16 md:h-20 object-contain mx-auto" />
                 </a>
-                <p class="text-lg font-semibold text-white/95">HMB Sport</p>
-                <p class="text-sm text-white/80">Taller de costura y confección en Machala.</p>
+                <p class="text-lg font-semibold text-white/95">{{ $companyName }}</p>
+                <p class="text-sm text-white/80">{{ $companyDescription }}</p>
             </div>
 
             <!-- CONTACTO ESENCIAL -->
@@ -19,9 +30,9 @@
                 <h2 class="mb-3 font-semibold uppercase tracking-wide text-white/90">Contacto</h2>
                 <ul class="space-y-2 text-white/90">
                     <li>
-                        <a href="mailto:quisniahugo@hotmail.com"
+                        <a href="mailto:{{ $footerEmail }}"
                             class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 rounded">
-                            quisniahugo@hotmail.com
+                            {{ $footerEmail }}
                         </a>
                     </li>
                 </ul>
@@ -31,29 +42,41 @@
             <div class="md:col-span-2">
                 <h2 class="mb-3 font-semibold uppercase tracking-wide text-white/90">Redes sociales</h2>
                 <div class="flex justify-center md:justify-start gap-4">
-                    <a href="https://www.facebook.com/hmbsportt" target="_blank" rel="noopener noreferrer"
-                        aria-label="Facebook"
-                        class="w-11 h-11 flex items-center justify-center rounded-full border border-white/20 bg-white/5
-                        hover:bg-[#1877F2]/80 hover:scale-110 hover:shadow-lg transition
-                        focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
-                        <i class="fab fa-facebook-f text-white"></i>
-                    </a>
+                    @if ($facebook)
+                        <a href="{{ $facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                            class="w-11 h-11 flex items-center justify-center rounded-full border border-white/20 bg-white/5
+                            hover:bg-[#1877F2]/80 hover:scale-110 hover:shadow-lg transition
+                            focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
+                            <i class="fab fa-facebook-f text-white"></i>
+                        </a>
+                    @endif
 
-                    <a href="https://www.instagram.com/hmb_sport/" target="_blank" rel="noopener noreferrer"
-                        aria-label="Instagram"
-                        class="w-11 h-11 flex items-center justify-center rounded-full border border-white/20 bg-white/5
-                        hover:bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-400 hover:scale-110 hover:shadow-lg transition
-                        focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
-                        <i class="fab fa-instagram text-white"></i>
-                    </a>
+                    @if ($instagram)
+                        <a href="{{ $instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                            class="w-11 h-11 flex items-center justify-center rounded-full border border-white/20 bg-white/5
+                            hover:bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-400 hover:scale-110 hover:shadow-lg transition
+                            focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
+                            <i class="fab fa-instagram text-white"></i>
+                        </a>
+                    @endif
 
-                    <a href="https://www.tiktok.com/@hmbsport_ec?lang=es" target="_blank" rel="noopener noreferrer"
-                        aria-label="TikTok"
-                        class="w-11 h-11 flex items-center justify-center rounded-full border border-white/20 bg-white/5
-                        hover:bg-black/80 hover:scale-110 hover:shadow-lg transition
-                        focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
-                        <i class="fab fa-tiktok text-white"></i>
-                    </a>
+                    @if ($tiktok)
+                        <a href="{{ $tiktok }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok"
+                            class="w-11 h-11 flex items-center justify-center rounded-full border border-white/20 bg-white/5
+                            hover:bg-black/80 hover:scale-110 hover:shadow-lg transition
+                            focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
+                            <i class="fab fa-tiktok text-white"></i>
+                        </a>
+                    @endif
+
+                    @if ($youtube)
+                        <a href="{{ $youtube }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube"
+                            class="w-11 h-11 flex items-center justify-center rounded-full border border-white/20 bg-white/5
+                            hover:bg-red-600/90 hover:scale-110 hover:shadow-lg transition
+                            focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
+                            <i class="fab fa-youtube text-white"></i>
+                        </a>
+                    @endif
                 </div>
             </div>
 
@@ -95,7 +118,7 @@
         <!-- ============== BOTTOM ============== -->
         <div class="flex flex-col items-center gap-2 text-center">
             <p class="text-sm text-white/70">
-                © 2025 HMB Sport. Todos los derechos reservados.
+                © {{ now()->year }} {{ $legalCompanyName }}. Todos los derechos reservados.
             </p>
         </div>
     </div>
