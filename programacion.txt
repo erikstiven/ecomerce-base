@@ -1,0 +1,37 @@
+//ejecutar seeders
+php artisan db:seed
+
+//Actualizar seeders
+php artisan migrate:fresh --seed
+
+//crear controladores en tal carpeta y listo para usar el modelo respectivo
+php artisan make:controller Admin\FamilyController --model=Family
+
+//Bar de laravel para inspeccionar peticiones
+composer require barryvdh/laravel-debugbar
+
+//Crear un componente en livewire
+php artisan make:livewire admin.subcategories.subcategory-create
+
+
+//Crear una fabrica
+php artisan make:factory ProductFactory
+
+Pasos para ejecutar
+------------------
+composer install
+Configurar el .env
+1. php artisan key:generate
+2. copy .env.example .env
+3. php artisan key:generate
+4.  DB_DATABASE=ecommerce
+    DB_USERNAME=root
+    DB_PASSWORD=
+    FILESYSTEM_DISK=public
+
+5. php artisan migrate --seed
+6. //Crear acceso directo donde se guardan las imagenes
+   php artisan storage:link
+7. php artisan migrate:fresh --seed
+8. composer require livewire/livewire
+
