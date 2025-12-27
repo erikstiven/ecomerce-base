@@ -53,12 +53,11 @@
             </div>
 
             @php
-                use Illuminate\Support\Facades\Storage;
-                use Illuminate\Support\Str;
-
                 $footerLogo = $settings?->footer_logo;
                 $footerLogoUrl = $footerLogo
-                    ? (Str::startsWith($footerLogo, ['http://', 'https://', '/']) ? $footerLogo : Storage::url($footerLogo))
+                    ? (\Illuminate\Support\Str::startsWith($footerLogo, ['http://', 'https://', '/'])
+                        ? $footerLogo
+                        : \Illuminate\Support\Facades\Storage::url($footerLogo))
                     : null;
             @endphp
 
