@@ -10,6 +10,8 @@ class CompanySetting extends Model
         'name',
         'footer_description',
         'footer_email',
+        'footer_phone',
+        'footer_logo',
         'facebook',
         'instagram',
         'tiktok',

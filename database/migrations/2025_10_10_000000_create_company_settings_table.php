@@ -10,8 +10,10 @@ return new class extends Migration {
         Schema::create('company_settings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('footer_description')->nullable();
+            $table->text('footer_description')->nullable();
             $table->string('footer_email')->nullable();
+            $table->string('footer_phone')->nullable();
+            $table->string('footer_logo')->nullable();
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
             $table->string('tiktok')->nullable();

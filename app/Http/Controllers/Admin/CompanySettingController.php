@@ -24,8 +24,10 @@ class CompanySettingController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'footer_description' => ['nullable', 'string', 'max:255'],
+            'footer_description' => ['nullable', 'string', 'max:1000'],
             'footer_email' => ['nullable', 'email', 'max:255'],
+            'footer_phone' => ['nullable', 'string', 'max:50'],
+            'footer_logo' => ['nullable', 'string', 'max:255'],
             'facebook' => ['nullable', 'url', 'max:255'],
             'instagram' => ['nullable', 'url', 'max:255'],
             'tiktok' => ['nullable', 'url', 'max:255'],

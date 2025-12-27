@@ -12,6 +12,12 @@
 ]">
 
     <div class="card-form">
+        @if (session('status'))
+            <div class="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                {{ session('status') }}
+            </div>
+        @endif
+
         <form method="POST" action="{{ route('admin.settings.footer.update') }}">
             @csrf
             @method('PUT')
@@ -35,9 +41,20 @@
                 <x-textarea class="w-full" name="footer_description" rows="2">{{ old('footer_description', $settings?->footer_description) }}</x-textarea>
             </div>
 
+            <div class="mt-4 grid gap-6 md:grid-cols-2">
+                <div>
+                    <x-label class="mt-2">Email de contacto</x-label>
+                    <x-input class="w-full" name="footer_email" value="{{ old('footer_email', $settings?->footer_email) }}" />
+                </div>
+                <div>
+                    <x-label class="mt-2">Teléfono de contacto</x-label>
+                    <x-input class="w-full" name="footer_phone" value="{{ old('footer_phone', $settings?->footer_phone) }}" />
+                </div>
+            </div>
+
             <div class="mt-4">
-                <x-label class="mt-2">Email de contacto</x-label>
-                <x-input class="w-full" name="footer_email" value="{{ old('footer_email', $settings?->footer_email) }}" />
+                <x-label class="mt-2">Logo (URL o ruta)</x-label>
+                <x-input class="w-full" name="footer_logo" value="{{ old('footer_logo', $settings?->footer_logo) }}" />
             </div>
 
             <div class="mt-6">

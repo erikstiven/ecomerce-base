@@ -1,12 +1,14 @@
 @php
-    $companyName = setting('name', 'HMB Sport');
-    $companyDescription = setting('footer_description', 'Taller de costura y confección en Machala.');
-    $footerEmail = setting('footer_email', 'quisniahugo@hotmail.com');
-    $facebook = setting('facebook', 'https://www.facebook.com/hmbsportt');
-    $instagram = setting('instagram', 'https://www.instagram.com/hmb_sport/');
-    $tiktok = setting('tiktok', 'https://www.tiktok.com/@hmbsport_ec?lang=es');
-    $youtube = setting('youtube');
-    $legalCompanyName = setting('legal_company_name', 'HMB Sport');
+    $companyName = setting('name', 'Codecima');
+    $companyDescription = setting('footer_description', 'Soluciones digitales y ecommerce.');
+    $footerEmail = setting('footer_email', 'contacto@codecima.com');
+    $footerPhone = setting('footer_phone', '');
+    $footerLogo = setting('footer_logo', asset('img/logo.png'));
+    $facebook = setting('facebook', 'https://www.facebook.com/codecima');
+    $instagram = setting('instagram', 'https://www.instagram.com/codecima');
+    $tiktok = setting('tiktok', 'https://www.tiktok.com/@codecima');
+    $youtube = setting('youtube', 'https://www.youtube.com/@codecima');
+    $legalCompanyName = setting('legal_company_name', 'Codecima');
 @endphp
 
 <footer class="bg-gradient-to-r from-[#3b0764] via-[#1e3a8a] to-[#7e22ce] text-white">
@@ -19,7 +21,7 @@
             <div
                 class="md:col-span-4 flex flex-col items-center md:items-start justify-center text-center md:text-left md:self-center space-y-3">
                 <a href="/" class="inline-flex" aria-label="Ir al inicio">
-                    <img src="/img/logohmbsport.svg" alt="HMB Sport" class="h-16 md:h-20 object-contain mx-auto" />
+                    <img src="{{ $footerLogo }}" alt="{{ $companyName }}" class="h-16 md:h-20 object-contain mx-auto" />
                 </a>
                 <p class="text-lg font-semibold text-white/95">{{ $companyName }}</p>
                 <p class="text-sm text-white/80">{{ $companyDescription }}</p>
@@ -29,12 +31,21 @@
             <div class="md:col-span-3">
                 <h2 class="mb-3 font-semibold uppercase tracking-wide text-white/90">Contacto</h2>
                 <ul class="space-y-2 text-white/90">
-                    <li>
-                        <a href="mailto:{{ $footerEmail }}"
-                            class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 rounded">
-                            {{ $footerEmail }}
-                        </a>
-                    </li>
+                    @if ($footerEmail)
+                        <li>
+                            <a href="mailto:{{ $footerEmail }}"
+                                class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 rounded">
+                                {{ $footerEmail }}
+                            </a>
+                        </li>
+                    @elseif ($footerPhone)
+                        <li>
+                            <a href="tel:{{ $footerPhone }}"
+                                class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 rounded">
+                                {{ $footerPhone }}
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
 
