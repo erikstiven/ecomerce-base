@@ -24,7 +24,7 @@ class CompanySettingController extends Controller
     public function update(Request $request)
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['nullable', 'string', 'max:255'],
             'footer_description' => ['nullable', 'string', 'max:1000'],
             'footer_email' => ['nullable', 'email', 'max:255'],
             'footer_phone' => ['nullable', 'string', 'max:50'],
@@ -35,6 +35,12 @@ class CompanySettingController extends Controller
             'youtube' => ['nullable', 'url', 'max:255'],
             'legal_company_name' => ['nullable', 'string', 'max:255'],
         ]);
+
+        $settings = CompanySetting::query()->firstOrNew();
+
+        if (blank($validated['name'] ?? null)) {
+            $validated['name'] = $settings->name ?: 'Codecima';
+        }
 
         if ($request->hasFile('footer_logo')) {
             $path = $request->file('footer_logo')->store('company-settings', 'public');
@@ -50,7 +56,6 @@ class CompanySettingController extends Controller
             unset($validated['footer_logo']);
         }
 
-        $settings = CompanySetting::query()->firstOrNew();
         $settings->fill($validated);
         $settings->save();
 
