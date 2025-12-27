@@ -1,9 +1,15 @@
 @php
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Support\Str;
+
     $companyName = setting('name', 'Codecima');
     $companyDescription = setting('footer_description', 'Soluciones digitales y ecommerce.');
     $footerEmail = setting('footer_email', 'contacto@codecima.com');
     $footerPhone = setting('footer_phone', '');
-    $footerLogo = setting('footer_logo', asset('img/logo.png'));
+    $storedLogo = setting('footer_logo', '');
+    $footerLogo = $storedLogo
+        ? (Str::startsWith($storedLogo, ['http://', 'https://', '/']) ? $storedLogo : Storage::url($storedLogo))
+        : asset('img/logo.png');
     $facebook = setting('facebook', 'https://www.facebook.com/codecima');
     $instagram = setting('instagram', 'https://www.instagram.com/codecima');
     $tiktok = setting('tiktok', 'https://www.tiktok.com/@codecima');
