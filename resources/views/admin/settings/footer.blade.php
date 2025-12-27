@@ -52,9 +52,25 @@
                 </div>
             </div>
 
+            @php
+                use Illuminate\Support\Facades\Storage;
+                use Illuminate\Support\Str;
+
+                $footerLogo = $settings?->footer_logo;
+                $footerLogoUrl = $footerLogo
+                    ? (Str::startsWith($footerLogo, ['http://', 'https://', '/']) ? $footerLogo : Storage::url($footerLogo))
+                    : null;
+            @endphp
+
             <div class="mt-4">
                 <x-label class="mt-2">Logo</x-label>
                 <x-input class="w-full" name="footer_logo" type="file" accept="image/*" />
+                @if ($footerLogoUrl)
+                    <div class="mt-3 flex items-center gap-3 text-xs text-slate-600">
+                        <img class="h-10 w-auto" src="{{ $footerLogoUrl }}" alt="Logo actual" />
+                        <span>Logo actual</span>
+                    </div>
+                @endif
             </div>
 
             <div class="mt-6">

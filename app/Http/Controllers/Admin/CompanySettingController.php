@@ -38,7 +38,14 @@ class CompanySettingController extends Controller
 
         if ($request->hasFile('footer_logo')) {
             $path = $request->file('footer_logo')->store('company-settings', 'public');
-            $validated['footer_logo'] = Storage::url($path);
+
+            if (!Storage::disk('public')->exists($path)) {
+                return back()
+                    ->withErrors(['footer_logo' => 'No se pudo guardar el logo.'])
+                    ->withInput();
+            }
+
+            $validated['footer_logo'] = $path;
         } else {
             unset($validated['footer_logo']);
         }
