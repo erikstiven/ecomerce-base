@@ -1,0 +1,15 @@
+1. Instalar dependencias
+composer install
+2. Configurar .env
+3. Ejecutar los comandos
+php artisan key:generate
+php artisan config:clear
+php artisan cache:clear
+
+4. Opcional
+4.1 CREAR base de datos nueva
+CREATE DATABASE ecommerce;
+4.2 Ejecuta migraciones
+php artisan migrate
+4.3 (Opcional) Seeders
+php artisan db:seed
