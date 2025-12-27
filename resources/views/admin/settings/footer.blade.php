@@ -18,7 +18,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('admin.settings.footer.update') }}">
+        <form method="POST" action="{{ route('admin.settings.footer.update') }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -53,8 +53,8 @@
             </div>
 
             <div class="mt-4">
-                <x-label class="mt-2">Logo (URL o ruta)</x-label>
-                <x-input class="w-full" name="footer_logo" value="{{ old('footer_logo', $settings?->footer_logo) }}" />
+                <x-label class="mt-2">Logo</x-label>
+                <x-input class="w-full" name="footer_logo" type="file" accept="image/*" />
             </div>
 
             <div class="mt-6">
