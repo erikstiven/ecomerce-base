@@ -124,7 +124,7 @@
             </div>
 
             <!-- Enlaces principales (escritorio) -->
-            <nav class="mt-4 hidden md:flex items-center gap-6 text-sm font-semibold text-white/90">
+            <nav class="mt-4 hidden md:flex items-center gap-6 border-t border-white/10 pt-3 text-sm font-semibold text-white/90">
                 <a href="{{ route('welcome.index') }}" class="hover:text-white transition">Inicio</a>
                 <a href="{{ route('servicios') }}" class="hover:text-white transition">Servicios</a>
                 <a href="{{ route('sobre-nosotros') }}" class="hover:text-white transition">Sobre nosotros</a>
