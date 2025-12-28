@@ -124,13 +124,15 @@
             </div>
 
             <!-- Enlaces principales (escritorio) -->
-            <nav class="mt-4 hidden md:flex items-center gap-6 border-t border-white/10 pt-3 text-sm font-semibold text-white/90">
-                <a href="{{ route('welcome.index') }}" class="hover:text-white transition">Inicio</a>
-                <a href="{{ route('servicios') }}" class="hover:text-white transition">Servicios</a>
-                <a href="{{ route('sobre-nosotros') }}" class="hover:text-white transition">Sobre nosotros</a>
-                <a href="{{ route('ubicacion') }}" class="hover:text-white transition">Ubicación</a>
-                <a href="{{ route('legal.faq') }}" class="hover:text-white transition">FAQ</a>
-            </nav>
+            <div class="mt-4 hidden md:block border-t border-white/10 bg-white/10">
+                <nav class="flex items-center justify-center gap-8 py-3 text-sm font-semibold text-white/90">
+                    <a href="{{ route('welcome.index') }}" class="hover:text-white transition">Inicio</a>
+                    <a href="{{ route('servicios') }}" class="hover:text-white transition">Servicios</a>
+                    <a href="{{ route('sobre-nosotros') }}" class="hover:text-white transition">Sobre nosotros</a>
+                    <a href="{{ route('ubicacion') }}" class="hover:text-white transition">Ubicación</a>
+                    <a href="{{ route('legal.faq') }}" class="hover:text-white transition">FAQ</a>
+                </nav>
+            </div>
 
             <!-- Buscador (móvil) -->
             <div class="mt-4 md:hidden">
