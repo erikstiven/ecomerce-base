@@ -1,5 +1,18 @@
 <div x-data="{ open: false }">
 
+    <!-- Barra superior (escritorio) -->
+    <div class="hidden md:block bg-[#1d4ed8] text-white/90">
+        <x-container class="px-4 py-2">
+            <nav class="flex items-center justify-center gap-8 text-sm font-semibold">
+                <a href="{{ route('welcome.index') }}" class="hover:text-white transition">Inicio</a>
+                <a href="{{ route('servicios') }}" class="hover:text-white transition">Servicios</a>
+                <a href="{{ route('sobre-nosotros') }}" class="hover:text-white transition">Sobre nosotros</a>
+                <a href="{{ route('ubicacion') }}" class="hover:text-white transition">Ubicación</a>
+                <a href="{{ route('legal.faq') }}" class="hover:text-white transition">FAQ</a>
+            </nav>
+        </x-container>
+    </div>
+
     {{-- HEADER DE LA PÁGINA --}}
     <header class="rounded-none bg-gradient-to-r from-[#3b0764] via-[#1e3a8a] to-[#7e22ce]">
         <x-container class="px-4 py-4">
@@ -123,16 +136,6 @@
                 </div>
             </div>
 
-            <!-- Enlaces principales (escritorio) -->
-            <div class="mt-4 hidden md:block border-t border-white/10 bg-white/10">
-                <nav class="flex items-center justify-center gap-8 py-3 text-sm font-semibold text-white/90">
-                    <a href="{{ route('welcome.index') }}" class="hover:text-white transition">Inicio</a>
-                    <a href="{{ route('servicios') }}" class="hover:text-white transition">Servicios</a>
-                    <a href="{{ route('sobre-nosotros') }}" class="hover:text-white transition">Sobre nosotros</a>
-                    <a href="{{ route('ubicacion') }}" class="hover:text-white transition">Ubicación</a>
-                    <a href="{{ route('legal.faq') }}" class="hover:text-white transition">FAQ</a>
-                </nav>
-            </div>
 
             <!-- Buscador (móvil) -->
             <div class="mt-4 md:hidden">
