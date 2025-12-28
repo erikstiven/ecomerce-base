@@ -25,6 +25,12 @@
             'header' => 'Configuración',
         ],
         [
+            'name' => 'Empresa',
+            'icon' => 'building-2',
+            'route' => route('admin.settings.company.edit'),
+            'active' => request()->routeIs('admin.settings.company.*'),
+        ],
+        [
             'name' => 'Footer',
             'icon' => 'settings',
             'route' => route('admin.settings.footer.edit'),

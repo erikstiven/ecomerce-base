@@ -2,14 +2,36 @@
     <x-container class="px-4 my-8">
 
         {{-- ========================= HERO ========================= --}}
+        @php
+            $locationTitle = setting('location_title', 'Ubicación');
+            $locationDescription = setting(
+                'location_description',
+                'Estamos en la ciudad de Machala, Ecuador. Puedes visitarnos o contactarnos para pedidos personalizados. ¡Hacemos envíos a todo el país!'
+            );
+            $locationMapEmbed = setting(
+                'location_map_embed',
+                'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.028587707602!2d-79.95392!3d-3.2636928!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x90330fbbf896c7d7%3A0xeb99f3085f5faf72!2sHMB-SPORT!5e0!3m2!1ses!2sec!4v1696532538685!5m2!1ses!2sec'
+            );
+            $locationAddress = setting(
+                'location_address',
+                'Tarqui y 11ª Norte' . PHP_EOL . 'Frente al Colegio Henríquez Coello — Machala'
+            );
+            $locationHours = setting(
+                'location_hours',
+                'Lunes a Sábado — 09:00 a 18:00' . PHP_EOL . 'Domingo — Cerrado'
+            );
+            $locationEmail = setting('location_email', 'quisniahugo@hotmail.com');
+            $locationPhonePrimary = setting('location_phone_primary', '0989009428');
+            $locationPhoneSecondary = setting('location_phone_secondary', '0983284300');
+            $locationPhoneSales = setting('location_phone_sales', '0979018689');
+        @endphp
+
         <header class="text-center mb-8">
             <h2 class="flex items-center justify-center gap-2 text-4xl md:text-5xl font-extrabold text-purple-700">
-
-                Ubicación
+                {{ $locationTitle }}
             </h2>
             <p class="mt-2 text-gray-600 max-w-2xl mx-auto">
-                Estamos en la ciudad de <b>Machala, Ecuador</b>. Puedes visitarnos o contactarnos para pedidos
-                personalizados. ¡Hacemos envíos a todo el país!
+                {{ $locationDescription }}
             </p>
         </header>
 
@@ -19,7 +41,7 @@
                 {{-- Wrapper con altura forzada y responsive --}}
                 <div class="w-full" style="height:clamp(420px, 60vh, 720px);">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.028587707602!2d-79.95392!3d-3.2636928!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x90330fbbf896c7d7%3A0xeb99f3085f5faf72!2sHMB-SPORT!5e0!3m2!1ses!2sec!4v1696532538685!5m2!1ses!2sec"
+                        src="{{ $locationMapEmbed }}"
                         class="block w-full h-full border-0"
                         style="filter:grayscale(0.05) contrast(1.05) brightness(1.05);" allowfullscreen loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade" title="Ubicación HMB-SPORT en Google Maps">
@@ -43,14 +65,12 @@
                         Dirección
                     </h3>
                     <p class="mt-2 text-gray-700 leading-relaxed">
-                        <b>Tarqui y 11ª Norte</b> <br>
-                        Frente al Colegio Henríquez Coello — Machala
+                        {!! nl2br(e($locationAddress)) !!}
                     </p>
 
                     <h4 class="mt-4 text-sm font-medium text-gray-900">Horario de atención</h4>
                     <p class="text-sm text-gray-700">
-                        Lunes a Sábado — 09:00 a 18:00 <br>
-                        Domingo — Cerrado
+                        {!! nl2br(e($locationHours)) !!}
                     </p>
                 </div>
             </div>
@@ -63,19 +83,25 @@
                 <div class="mt-4 space-y-4 text-sm">
                     <div>
                         <h4 class="font-medium text-gray-700">Correo</h4>
-                        <a href="mailto:quisniahugo@hotmail.com"
-                            class="text-purple-600 hover:text-purple-700">quisniahugo@hotmail.com</a>
+                        <a href="mailto:{{ $locationEmail }}"
+                            class="text-purple-600 hover:text-purple-700">{{ $locationEmail }}</a>
                     </div>
 
                     <div>
                         <h4 class="font-medium text-gray-700">WhatsApp / Teléfonos</h4>
                         <ul class="mt-2 space-y-1 text-gray-700">
-                            <li>📞 Cotizaciones: <a href="https://wa.me/593989009428"
-                                    class="text-emerald-600 hover:underline">0989009428</a></li>
-                            <li>📞 Cotizaciones: <a href="https://wa.me/593983284300"
-                                    class="text-emerald-600 hover:underline">0983284300</a></li>
-                            <li>📞 Ventas: <a href="https://wa.me/593979018689"
-                                    class="text-emerald-600 hover:underline">0979018689</a></li>
+                            @if ($locationPhonePrimary)
+                                <li>📞 Cotizaciones: <a href="https://wa.me/593{{ $locationPhonePrimary }}"
+                                        class="text-emerald-600 hover:underline">{{ $locationPhonePrimary }}</a></li>
+                            @endif
+                            @if ($locationPhoneSecondary)
+                                <li>📞 Cotizaciones: <a href="https://wa.me/593{{ $locationPhoneSecondary }}"
+                                        class="text-emerald-600 hover:underline">{{ $locationPhoneSecondary }}</a></li>
+                            @endif
+                            @if ($locationPhoneSales)
+                                <li>📞 Ventas: <a href="https://wa.me/593{{ $locationPhoneSales }}"
+                                        class="text-emerald-600 hover:underline">{{ $locationPhoneSales }}</a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
