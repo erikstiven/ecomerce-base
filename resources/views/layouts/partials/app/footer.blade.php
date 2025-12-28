@@ -10,10 +10,11 @@
     $footerLogo = $storedLogo
         ? (Str::startsWith($storedLogo, ['http://', 'https://', '/']) ? $storedLogo : Storage::url($storedLogo))
         : asset('img/logo.png');
-    $facebook = setting('facebook', 'https://www.facebook.com/codecima');
-    $instagram = setting('instagram', 'https://www.instagram.com/codecima');
-    $tiktok = setting('tiktok', 'https://www.tiktok.com/@codecima');
-    $youtube = setting('youtube', 'https://www.youtube.com/@codecima');
+    $facebook = setting('facebook', '');
+    $instagram = setting('instagram', '');
+    $tiktok = setting('tiktok', '');
+    $youtube = setting('youtube', '');
+    $hasSocialLinks = $facebook || $instagram || $tiktok || $youtube;
     $legalCompanyName = setting('legal_company_name', 'Codecima');
 @endphp
 
@@ -56,9 +57,10 @@
             </div>
 
             <!-- REDES SOCIALES -->
-            <div class="md:col-span-2">
-                <h2 class="mb-3 font-semibold uppercase tracking-wide text-white/90">Redes sociales</h2>
-                <div class="flex justify-center md:justify-start gap-4">
+            @if ($hasSocialLinks)
+                <div class="md:col-span-2">
+                    <h2 class="mb-3 font-semibold uppercase tracking-wide text-white/90">Redes sociales</h2>
+                    <div class="flex justify-center md:justify-start gap-4">
                     @if ($facebook)
                         <a href="{{ $facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
                             class="w-11 h-11 flex items-center justify-center rounded-full border border-white/20 bg-white/5
@@ -94,8 +96,9 @@
                             <i class="fab fa-youtube text-white"></i>
                         </a>
                     @endif
+                    </div>
                 </div>
-            </div>
+            @endif
 
             <!-- INFORMACIÓN / LEGAL -->
             <div class="md:col-span-3">
