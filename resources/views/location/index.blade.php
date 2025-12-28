@@ -24,6 +24,7 @@
             $locationPhonePrimary = setting('location_phone_primary', '0989009428');
             $locationPhoneSecondary = setting('location_phone_secondary', '0983284300');
             $locationPhoneSales = setting('location_phone_sales', '0979018689');
+            $locationContactText = setting('location_contact_text', '');
         @endphp
 
         <header class="text-center mb-8">
@@ -81,6 +82,11 @@
                 <p class="mt-1 text-sm text-gray-600">Te atenderemos con gusto.</p>
 
                 <div class="mt-4 space-y-4 text-sm">
+                    @if ($locationContactText)
+                        <div class="text-sm text-gray-700">
+                            {!! nl2br(e($locationContactText)) !!}
+                        </div>
+                    @endif
                     <div>
                         <h4 class="font-medium text-gray-700">Correo</h4>
                         <a href="mailto:{{ $locationEmail }}"

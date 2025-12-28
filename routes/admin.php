@@ -8,7 +8,9 @@ use App\Http\Controllers\Admin\SubcategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CoverController;
 use App\Http\Controllers\Admin\CompanyProfileController;
+use App\Http\Controllers\Admin\CompanyServiceController;
 use App\Http\Controllers\Admin\CompanySettingController;
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DriverController;
 use App\Http\Controllers\Admin\OrderController;
@@ -29,6 +31,12 @@ Route::get('/settings/footer', [CompanySettingController::class, 'edit'])->name(
 Route::put('/settings/footer', [CompanySettingController::class, 'update'])->name('settings.footer.update');
 Route::get('/settings/company', [CompanyProfileController::class, 'edit'])->name('settings.company.edit');
 Route::put('/settings/company', [CompanyProfileController::class, 'update'])->name('settings.company.update');
+Route::resource('/settings/company/services', CompanyServiceController::class)
+    ->names('settings.company.services')
+    ->except(['show']);
+Route::resource('/settings/company/faqs', FaqController::class)
+    ->names('settings.company.faqs')
+    ->except(['show']);
 
 Route::resource('families', FamilyController::class);
 Route::resource('categories', CategoryController::class);

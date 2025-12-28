@@ -31,6 +31,7 @@ class CompanySetting extends Model
         'location_phone_primary',
         'location_phone_secondary',
         'location_phone_sales',
+        'location_contact_text',
         'faq_title',
         'faq_content',
         'legal_terms_content',

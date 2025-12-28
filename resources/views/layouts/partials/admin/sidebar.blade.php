@@ -31,6 +31,18 @@
             'active' => request()->routeIs('admin.settings.company.*'),
         ],
         [
+            'name' => 'Servicios',
+            'icon' => 'briefcase',
+            'route' => route('admin.settings.company.services.index'),
+            'active' => request()->routeIs('admin.settings.company.services.*'),
+        ],
+        [
+            'name' => 'FAQ',
+            'icon' => 'help-circle',
+            'route' => route('admin.settings.company.faqs.index'),
+            'active' => request()->routeIs('admin.settings.company.faqs.*'),
+        ],
+        [
             'name' => 'Footer',
             'icon' => 'settings',
             'route' => route('admin.settings.footer.edit'),

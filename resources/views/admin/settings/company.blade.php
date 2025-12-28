@@ -75,6 +75,10 @@
                             <x-label class="mt-2">Horario</x-label>
                             <x-textarea class="w-full" name="location_hours" rows="3">{{ old('location_hours', $settings?->location_hours) }}</x-textarea>
                         </div>
+                        <div class="md:col-span-2">
+                            <x-label class="mt-2">Contacto (texto libre)</x-label>
+                            <x-textarea class="w-full" name="location_contact_text" rows="4">{{ old('location_contact_text', $settings?->location_contact_text) }}</x-textarea>
+                        </div>
                         <div>
                             <x-label class="mt-2">Email de contacto</x-label>
                             <x-input class="w-full" name="location_email"

@@ -37,6 +37,7 @@ class CompanyProfileController extends Controller
             'location_phone_primary' => ['nullable', 'string', 'max:50'],
             'location_phone_secondary' => ['nullable', 'string', 'max:50'],
             'location_phone_sales' => ['nullable', 'string', 'max:50'],
+            'location_contact_text' => ['nullable', 'string', 'max:3000'],
             'faq_title' => ['nullable', 'string', 'max:255'],
             'faq_content' => ['nullable', 'string', 'max:5000'],
             'legal_terms_content' => ['nullable', 'string', 'max:5000'],
