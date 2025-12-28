@@ -123,6 +123,15 @@
                 </div>
             </div>
 
+            <!-- Enlaces principales (escritorio) -->
+            <nav class="mt-4 hidden md:flex items-center gap-6 text-sm font-semibold text-white/90">
+                <a href="{{ route('welcome.index') }}" class="hover:text-white transition">Inicio</a>
+                <a href="{{ route('servicios') }}" class="hover:text-white transition">Servicios</a>
+                <a href="{{ route('sobre-nosotros') }}" class="hover:text-white transition">Sobre nosotros</a>
+                <a href="{{ route('ubicacion') }}" class="hover:text-white transition">Ubicación</a>
+                <a href="{{ route('legal.faq') }}" class="hover:text-white transition">FAQ</a>
+            </nav>
+
             <!-- Buscador (móvil) -->
             <div class="mt-4 md:hidden">
                 <x-input onkeypress="handleEnter(event)" oninput="search(this.value)"
