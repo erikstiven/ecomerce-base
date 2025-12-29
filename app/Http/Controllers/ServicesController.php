@@ -8,26 +8,32 @@ class ServicesController extends Controller
 {
     public function index()
     {
-        // Datos simulados para las tarjetas de servicios
-        $servicios = [
+        $services = \App\Models\CompanyService::query()
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
+
+        $fallbackServices = [
             [
-                'img' => asset('img/serigrafia.jpg'),
                 'title' => 'Serigrafía',
-                'desc' => 'Impresión textil de alta durabilidad con tintas profesionales.'
+                'description' => 'Impresión textil de alta durabilidad con tintas profesionales.',
+                'image_path' => null,
             ],
             [
-                'img' => asset('img/bordado.jpg'),
                 'title' => 'Bordado',
-                'desc' => 'Acabado premium con hilos de alta calidad.'
+                'description' => 'Acabado premium con hilos de alta calidad.',
+                'image_path' => null,
             ],
             [
-                'img' => asset('img/sublimado.jpg'),
                 'title' => 'Sublimado',
-                'desc' => 'Ideal para prendas deportivas y personalizadas.'
+                'description' => 'Ideal para prendas deportivas y personalizadas.',
+                'image_path' => null,
             ],
         ];
 
-        // Retornamos la vista con la variable $servicios
-        return view('services.index', compact('servicios'));
+        return view('services.index', [
+            'services' => $services->isNotEmpty() ? $services : collect($fallbackServices),
+        ]);
     }
 }

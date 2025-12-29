@@ -12,13 +12,37 @@
         @endphp
 
         {{-- ========================= HERO ========================= --}}
+        @php
+            $aboutTitle = setting('about_title', 'Sobre nosotros');
+            $aboutIntro = setting(
+                'about_intro',
+                'Somos un taller de costura y confección en Machala. Diseñamos y producimos uniformes escolares, deportivos y dotación corporativa con acabados de calidad.'
+            );
+            $aboutWho = setting(
+                'about_who',
+                'Desde el año 2000 ayudamos a colegios, empresas y emprendedores a transformar sus ideas en prendas funcionales y duraderas. Combinamos el trabajo artesanal con maquinaria industrial para entregar a tiempo y con precisión.'
+            );
+            $aboutDifferentials = setting(
+                'about_differentials',
+                '✔ Control de calidad en corte, confección y terminaciones pieza por pieza.' . PHP_EOL .
+                    '✔ Producción flexible: desde 12 unidades en adelante' . PHP_EOL .
+                    '✔ Asesoría en telas, tallajes, etc.'
+            );
+            $aboutProcess = setting(
+                'about_process',
+                '1) Cotización: cuéntanos tipo de prenda, cantidades y diseño.' . PHP_EOL .
+                    '2) Muestra y ajustes: validamos el diseño personalizado, tallas, tela y colores.' . PHP_EOL .
+                    '3) Producción: corte, confección y terminaciones.' . PHP_EOL .
+                    '4) Control y entrega: revisión final y empaque por tallas.'
+            );
+        @endphp
+
         <header class="text-center mb-8">
             <h2 class="flex items-center justify-center gap-2 text-4xl md:text-5xl font-extrabold text-purple-700">
-                Sobre nosotros
+                {{ $aboutTitle }}
             </h2>
             <p class="mt-2 text-gray-600">
-                Somos un taller de costura y confección en Machala. Diseñamos y producimos uniformes escolares,
-                deportivos y dotación corporativa con acabados de calidad.
+                {{ $aboutIntro }}
             </p>
         </header>
 
@@ -30,9 +54,7 @@
                 <div class="p-6 {{ $cardBase }}">
                     <h3 class="text-lg font-semibold text-gray-900">Quiénes somos</h3>
                     <p class="mt-2 text-gray-700 leading-relaxed">
-                        Desde el año 2000 ayudamos a colegios, empresas y emprendedores a transformar sus ideas en
-                        prendas funcionales y duraderas. Combinamos el trabajo artesanal con maquinaria industrial para
-                        entregar a tiempo y con precisión.
+                        {{ $aboutWho }}
                     </p>
 
                     <div class="mt-4 grid gap-3 sm:grid-cols-3">
@@ -66,9 +88,11 @@
                 <div class="p-6 flex flex-col {{ $cardBase }}">
                     <h3 class="text-lg font-semibold text-gray-900">¿Qué nos hace diferentes?</h3>
                     <ul class="mt-2 space-y-2 text-gray-700 text-sm">
-                        <li>✔ Control de calidad en corte, confección y terminaciones pieza por pieza.</li>
-                        <li>✔ Producción flexible: desde 12 unidades en adelante</li>
-                        <li>✔ Asesoría en telas, tallajes, etc.</li>
+                        @foreach (preg_split('/\r\n|\r|\n/', $aboutDifferentials) as $differential)
+                            @if (trim($differential) !== '')
+                                <li>{{ $differential }}</li>
+                            @endif
+                        @endforeach
                     </ul>
 
                     <h4 class="mt-5 text-sm font-medium text-gray-900">Capacidades del taller</h4>
@@ -100,10 +124,11 @@
             <div class="p-6 {{ $cardBase }}">
                 <h3 class="text-lg font-semibold text-gray-900">Nuestro proceso</h3>
                 <ol class="mt-3 space-y-3 text-sm text-gray-700">
-                    <li><b>1) Cotización:</b> cuéntanos tipo de prenda, cantidades y diseño.</li>
-                    <li><b>2) Muestra y ajustes:</b> validamos el diseño personalizado, tallas, tela y colores.</li>
-                    <li><b>3) Producción:</b> corte, confección y terminaciones.</li>
-                    <li><b>4) Control y entrega:</b> revisión final y empaque por tallas.</li>
+                    @foreach (preg_split('/\r\n|\r|\n/', $aboutProcess) as $step)
+                        @if (trim($step) !== '')
+                            <li>{{ $step }}</li>
+                        @endif
+                    @endforeach
                 </ol>
 
                 <h4 class="mt-5 text-sm font-medium text-gray-900">Clientes y sectores</h4>

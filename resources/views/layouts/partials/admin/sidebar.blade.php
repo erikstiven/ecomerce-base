@@ -22,6 +22,50 @@
             'active' => request()->routeIs('admin.options.*'),
         ],
         [
+            'header' => 'Configuración',
+        ],
+        [
+            'name' => 'Empresa',
+            'icon' => 'building-2',
+            'route' => route('admin.settings.company.edit'),
+            'active' => request()->routeIs('admin.settings.company.*')
+                || request()->routeIs('admin.settings.company.services.*')
+                || request()->routeIs('admin.settings.company.faqs.*')
+                || request()->routeIs('admin.settings.footer.*'),
+            'children' => [
+                [
+                    'name' => 'Quiénes somos',
+                    'icon' => 'users',
+                    'route' => route('admin.settings.company.edit'),
+                    'active' => request()->routeIs('admin.settings.company.*'),
+                ],
+                [
+                    'name' => 'Ubicación',
+                    'icon' => 'map-pin',
+                    'route' => route('admin.settings.company.edit'),
+                    'active' => request()->routeIs('admin.settings.company.*'),
+                ],
+                [
+                    'name' => 'Servicios',
+                    'icon' => 'briefcase',
+                    'route' => route('admin.settings.company.services.index'),
+                    'active' => request()->routeIs('admin.settings.company.services.*'),
+                ],
+                [
+                    'name' => 'FAQ',
+                    'icon' => 'help-circle',
+                    'route' => route('admin.settings.company.faqs.index'),
+                    'active' => request()->routeIs('admin.settings.company.faqs.*'),
+                ],
+                [
+                    'name' => 'Footer',
+                    'icon' => 'settings',
+                    'route' => route('admin.settings.footer.edit'),
+                    'active' => request()->routeIs('admin.settings.footer.*'),
+                ],
+            ],
+        ],
+        [
             // Familias de productos
             'icon' => 'layers',
             'name' => 'Familias',
@@ -112,21 +156,58 @@
                             {{ $link['header'] }}
                         </div>
                     @else
-                        <a href="{{ $link['route'] }}"
-                            class="group relative flex items-center rounded-lg px-3 py-2 text-slate-200 hover:bg-slate-800/80 transition-colors {{ $link['active'] ? 'bg-indigo-500/20 ring-1 ring-indigo-400/40 text-white' : '' }}"
-                            :class="sidebarCollapsed ? 'justify-center' : 'gap-3'"
-                            title="{{ $link['name'] }}">
-                            <span class="inline-flex w-6 h-6 justify-center items-center">
-                                <i data-lucide="{{ $link['icon'] }}" class="w-5 h-5"></i>
-                            </span>
-                            <span x-show="!sidebarCollapsed" x-cloak x-transition>
-                                {{ $link['name'] }}
-                            </span>
-                            <span x-show="sidebarCollapsed" x-cloak
-                                class="pointer-events-none absolute left-full ml-3 whitespace-nowrap rounded-md bg-slate-800 px-3 py-1 text-xs text-white shadow-lg">
-                                {{ $link['name'] }}
-                            </span>
-                        </a>
+                        @if (!empty($link['children']))
+                            <div x-data="{ open: {{ $link['active'] ? 'true' : 'false' }} }">
+                                <button type="button"
+                                    class="group relative flex w-full items-center rounded-lg px-3 py-2 text-slate-200 hover:bg-slate-800/80 transition-colors {{ $link['active'] ? 'bg-indigo-500/20 ring-1 ring-indigo-400/40 text-white' : '' }}"
+                                    :class="sidebarCollapsed ? 'justify-center' : 'gap-3'"
+                                    title="{{ $link['name'] }}"
+                                    @click="open = !open">
+                                    <span class="inline-flex w-6 h-6 justify-center items-center">
+                                        <i data-lucide="{{ $link['icon'] }}" class="w-5 h-5"></i>
+                                    </span>
+                                    <span x-show="!sidebarCollapsed" x-cloak x-transition class="flex-1 text-left">
+                                        {{ $link['name'] }}
+                                    </span>
+                                    <span x-show="!sidebarCollapsed" x-cloak class="text-slate-300">
+                                        <i data-lucide="chevron-down" class="w-4 h-4" :class="open ? 'rotate-180' : ''"></i>
+                                    </span>
+                                    <span x-show="sidebarCollapsed" x-cloak
+                                        class="pointer-events-none absolute left-full ml-3 whitespace-nowrap rounded-md bg-slate-800 px-3 py-1 text-xs text-white shadow-lg">
+                                        {{ $link['name'] }}
+                                    </span>
+                                </button>
+                                <ul x-show="open && !sidebarCollapsed" x-cloak class="mt-1 space-y-1 pl-8">
+                                    @foreach ($link['children'] as $child)
+                                        <li>
+                                            <a href="{{ $child['route'] }}"
+                                                class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-slate-800/70 hover:text-white transition-colors {{ $child['active'] ? 'bg-indigo-500/20 ring-1 ring-indigo-400/40 text-white' : '' }}">
+                                                <span class="inline-flex w-4 h-4 justify-center items-center">
+                                                    <i data-lucide="{{ $child['icon'] }}" class="w-4 h-4"></i>
+                                                </span>
+                                                <span>{{ $child['name'] }}</span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @else
+                            <a href="{{ $link['route'] }}"
+                                class="group relative flex items-center rounded-lg px-3 py-2 text-slate-200 hover:bg-slate-800/80 transition-colors {{ $link['active'] ? 'bg-indigo-500/20 ring-1 ring-indigo-400/40 text-white' : '' }}"
+                                :class="sidebarCollapsed ? 'justify-center' : 'gap-3'"
+                                title="{{ $link['name'] }}">
+                                <span class="inline-flex w-6 h-6 justify-center items-center">
+                                    <i data-lucide="{{ $link['icon'] }}" class="w-5 h-5"></i>
+                                </span>
+                                <span x-show="!sidebarCollapsed" x-cloak x-transition>
+                                    {{ $link['name'] }}
+                                </span>
+                                <span x-show="sidebarCollapsed" x-cloak
+                                    class="pointer-events-none absolute left-full ml-3 whitespace-nowrap rounded-md bg-slate-800 px-3 py-1 text-xs text-white shadow-lg">
+                                    {{ $link['name'] }}
+                                </span>
+                            </a>
+                        @endif
                     @endisset
                 </li>
             @endforeach
