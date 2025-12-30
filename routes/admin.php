@@ -31,6 +31,10 @@ Route::get('/settings/footer', [CompanySettingController::class, 'edit'])->name(
 Route::put('/settings/footer', [CompanySettingController::class, 'update'])->name('settings.footer.update');
 Route::get('/settings/company', [CompanyProfileController::class, 'edit'])->name('settings.company.edit');
 Route::put('/settings/company', [CompanyProfileController::class, 'update'])->name('settings.company.update');
+Route::get('/settings/company/location', [CompanyProfileController::class, 'editLocation'])
+    ->name('settings.company.location.edit');
+Route::put('/settings/company/location', [CompanyProfileController::class, 'updateLocation'])
+    ->name('settings.company.location.update');
 Route::resource('/settings/company/services', CompanyServiceController::class)
     ->names('settings.company.services')
     ->except(['show']);

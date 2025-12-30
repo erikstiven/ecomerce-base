@@ -28,16 +28,6 @@ class CompanyProfileController extends Controller
             'about_who' => ['nullable', 'string', 'max:3000'],
             'about_differentials' => ['nullable', 'string', 'max:3000'],
             'about_process' => ['nullable', 'string', 'max:3000'],
-            'location_title' => ['nullable', 'string', 'max:255'],
-            'location_description' => ['nullable', 'string', 'max:2000'],
-            'location_map_embed' => ['nullable', 'string', 'max:4000'],
-            'location_address' => ['nullable', 'string', 'max:1000'],
-            'location_hours' => ['nullable', 'string', 'max:1000'],
-            'location_email' => ['nullable', 'email', 'max:255'],
-            'location_phone_primary' => ['nullable', 'string', 'max:50'],
-            'location_phone_secondary' => ['nullable', 'string', 'max:50'],
-            'location_phone_sales' => ['nullable', 'string', 'max:50'],
-            'location_contact_text' => ['nullable', 'string', 'max:3000'],
             'faq_title' => ['nullable', 'string', 'max:255'],
             'faq_content' => ['nullable', 'string', 'max:5000'],
             'legal_terms_content' => ['nullable', 'string', 'max:5000'],
@@ -52,5 +42,36 @@ class CompanyProfileController extends Controller
         return redirect()
             ->route('admin.settings.company.edit')
             ->with('status', 'Configuración de empresa actualizada.');
+    }
+
+    public function editLocation()
+    {
+        return view('admin.settings.company-location', [
+            'settings' => CompanySetting::query()->first(),
+        ]);
+    }
+
+    public function updateLocation(Request $request)
+    {
+        $validated = $request->validate([
+            'location_title' => ['nullable', 'string', 'max:255'],
+            'location_description' => ['nullable', 'string', 'max:2000'],
+            'location_map_embed' => ['nullable', 'string', 'max:4000'],
+            'location_address' => ['nullable', 'string', 'max:1000'],
+            'location_hours' => ['nullable', 'string', 'max:1000'],
+            'location_email' => ['nullable', 'email', 'max:255'],
+            'location_phone_primary' => ['nullable', 'string', 'max:50'],
+            'location_phone_secondary' => ['nullable', 'string', 'max:50'],
+            'location_phone_sales' => ['nullable', 'string', 'max:50'],
+            'location_contact_text' => ['nullable', 'string', 'max:3000'],
+        ]);
+
+        $settings = CompanySetting::query()->firstOrNew();
+        $settings->fill($validated);
+        $settings->save();
+
+        return redirect()
+            ->route('admin.settings.company.location.edit')
+            ->with('status', 'Ubicación actualizada.');
     }
 }
