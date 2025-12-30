@@ -29,6 +29,7 @@
             'icon' => 'building-2',
             'route' => route('admin.settings.company.edit'),
             'active' => request()->routeIs('admin.settings.company.*')
+                || request()->routeIs('admin.settings.company.location.*')
                 || request()->routeIs('admin.settings.company.services.*')
                 || request()->routeIs('admin.settings.company.faqs.*')
                 || request()->routeIs('admin.settings.footer.*'),
@@ -37,13 +38,13 @@
                     'name' => 'Quiénes somos',
                     'icon' => 'users',
                     'route' => route('admin.settings.company.edit'),
-                    'active' => request()->routeIs('admin.settings.company.*'),
+                    'active' => request()->routeIs('admin.settings.company.edit'),
                 ],
                 [
                     'name' => 'Ubicación',
                     'icon' => 'map-pin',
-                    'route' => route('admin.settings.company.edit'),
-                    'active' => request()->routeIs('admin.settings.company.*'),
+                    'route' => route('admin.settings.company.location.edit'),
+                    'active' => request()->routeIs('admin.settings.company.location.*'),
                 ],
                 [
                     'name' => 'Servicios',
