@@ -52,20 +52,6 @@
                 </section>
 
                 <section>
-                    <h2 class="text-sm font-semibold text-slate-700">Preguntas frecuentes</h2>
-                    <div class="mt-4 grid gap-6 md:grid-cols-2">
-                        <div class="md:col-span-2">
-                            <x-label class="mt-2">Título</x-label>
-                            <x-input class="w-full" name="faq_title" value="{{ old('faq_title', $settings?->faq_title) }}" />
-                        </div>
-                        <div class="md:col-span-2">
-                            <x-label class="mt-2">Contenido</x-label>
-                            <x-textarea class="w-full" name="faq_content" rows="6">{{ old('faq_content', $settings?->faq_content) }}</x-textarea>
-                        </div>
-                    </div>
-                </section>
-
-                <section>
                     <h2 class="text-sm font-semibold text-slate-700">Legales</h2>
                     <div class="mt-4 grid gap-6 md:grid-cols-2">
                         <div class="md:col-span-2">

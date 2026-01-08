@@ -17,7 +17,7 @@
     <div class="card-form">
         <div class="mb-4 flex items-center justify-between">
             <h1 class="text-lg font-semibold text-slate-700">Servicios</h1>
-            <a href="{{ route('admin.settings.company.services.create') }}" class="btn btn-primary">Nuevo servicio</a>
+            <a href="{{ route('admin.settings.company.services.create') }}" class="btn-gradient-blue">Nuevo servicio</a>
         </div>
 
         @if (session('status'))
@@ -45,15 +45,20 @@
                             </td>
                             <td class="px-4 py-3">{{ $service->sort_order }}</td>
                             <td class="px-4 py-3 text-right">
-                                <a class="text-indigo-600 hover:underline"
-                                    href="{{ route('admin.settings.company.services.edit', $service) }}">Editar</a>
-                                <form class="inline" method="POST"
-                                    action="{{ route('admin.settings.company.services.destroy', $service) }}"
-                                    onsubmit="return confirm('¿Eliminar este servicio?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="ml-3 text-rose-600 hover:underline" type="submit">Eliminar</button>
-                                </form>
+                                <div class="flex items-center justify-end space-x-2">
+                                    <a href="{{ route('admin.settings.company.services.edit', $service) }}">
+                                        <img src="{{ asset('img/icons/boligrafo.png') }}" class="w-6 h-6" alt="Editar">
+                                    </a>
+                                    <form method="POST"
+                                        action="{{ route('admin.settings.company.services.destroy', $service) }}"
+                                        onsubmit="return confirm('¿Eliminar este servicio?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit">
+                                            <img src="{{ asset('img/icons/eliminar.png') }}" class="w-6 h-6" alt="Eliminar">
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty

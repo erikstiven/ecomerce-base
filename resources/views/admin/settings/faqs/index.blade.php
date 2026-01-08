@@ -17,7 +17,7 @@
     <div class="card-form">
         <div class="mb-4 flex items-center justify-between">
             <h1 class="text-lg font-semibold text-slate-700">Preguntas frecuentes</h1>
-            <a href="{{ route('admin.settings.company.faqs.create') }}" class="btn btn-primary">Nueva pregunta</a>
+            <a href="{{ route('admin.settings.company.faqs.create') }}" class="btn-gradient-blue">Nueva pregunta</a>
         </div>
 
         @if (session('status'))
@@ -43,15 +43,20 @@
                             <td class="px-4 py-3">{{ $faq->is_active ? 'Sí' : 'No' }}</td>
                             <td class="px-4 py-3">{{ $faq->sort_order }}</td>
                             <td class="px-4 py-3 text-right">
-                                <a class="text-indigo-600 hover:underline"
-                                    href="{{ route('admin.settings.company.faqs.edit', $faq) }}">Editar</a>
-                                <form class="inline" method="POST"
-                                    action="{{ route('admin.settings.company.faqs.destroy', $faq) }}"
-                                    onsubmit="return confirm('¿Eliminar esta pregunta?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="ml-3 text-rose-600 hover:underline" type="submit">Eliminar</button>
-                                </form>
+                                <div class="flex items-center justify-end space-x-2">
+                                    <a href="{{ route('admin.settings.company.faqs.edit', $faq) }}">
+                                        <img src="{{ asset('img/icons/boligrafo.png') }}" class="w-6 h-6" alt="Editar">
+                                    </a>
+                                    <form method="POST"
+                                        action="{{ route('admin.settings.company.faqs.destroy', $faq) }}"
+                                        onsubmit="return confirm('¿Eliminar esta pregunta?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit">
+                                            <img src="{{ asset('img/icons/eliminar.png') }}" class="w-6 h-6" alt="Eliminar">
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty

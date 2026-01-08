@@ -28,8 +28,6 @@ class CompanyProfileController extends Controller
             'about_who' => ['nullable', 'string', 'max:3000'],
             'about_differentials' => ['nullable', 'string', 'max:3000'],
             'about_process' => ['nullable', 'string', 'max:3000'],
-            'faq_title' => ['nullable', 'string', 'max:255'],
-            'faq_content' => ['nullable', 'string', 'max:5000'],
             'legal_terms_content' => ['nullable', 'string', 'max:5000'],
             'legal_privacy_content' => ['nullable', 'string', 'max:5000'],
             'legal_returns_content' => ['nullable', 'string', 'max:5000'],

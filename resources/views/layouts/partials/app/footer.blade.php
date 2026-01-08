@@ -8,7 +8,9 @@
     $footerPhone = setting('footer_phone', '');
     $storedLogo = setting('footer_logo', '');
     $footerLogo = $storedLogo
-        ? (Str::startsWith($storedLogo, ['http://', 'https://', '/']) ? $storedLogo : Storage::url($storedLogo))
+        ? (Str::startsWith($storedLogo, ['http://', 'https://', '/'])
+            ? $storedLogo
+            : (Storage::disk('public')->exists($storedLogo) ? Storage::url($storedLogo) : asset('img/logo.png')))
         : asset('img/logo.png');
     $facebook = setting('facebook', '');
     $instagram = setting('instagram', '');
