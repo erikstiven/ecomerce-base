@@ -44,9 +44,6 @@ class CompanyProfileController extends Controller
             'about_show_trust' => ['nullable', 'boolean'],
             'about_show_values' => ['nullable', 'boolean'],
             'about_show_cta' => ['nullable', 'boolean'],
-            'legal_terms_content' => ['nullable', 'string', 'max:5000'],
-            'legal_privacy_content' => ['nullable', 'string', 'max:5000'],
-            'legal_returns_content' => ['nullable', 'string', 'max:5000'],
         ]);
 
         $validated['about_show_narrative'] = $request->boolean('about_show_narrative');

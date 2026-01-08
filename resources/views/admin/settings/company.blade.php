@@ -139,23 +139,6 @@
                     </div>
                 </section>
 
-                <section>
-                    <h2 class="text-sm font-semibold text-slate-700">Legales</h2>
-                    <div class="mt-4 grid gap-6 md:grid-cols-2">
-                        <div class="md:col-span-2">
-                            <x-label class="mt-2">Términos y condiciones</x-label>
-                            <x-textarea class="w-full" name="legal_terms_content" rows="6">{{ old('legal_terms_content', $settings?->legal_terms_content) }}</x-textarea>
-                        </div>
-                        <div class="md:col-span-2">
-                            <x-label class="mt-2">Política de privacidad</x-label>
-                            <x-textarea class="w-full" name="legal_privacy_content" rows="6">{{ old('legal_privacy_content', $settings?->legal_privacy_content) }}</x-textarea>
-                        </div>
-                        <div class="md:col-span-2">
-                            <x-label class="mt-2">Política de devoluciones</x-label>
-                            <x-textarea class="w-full" name="legal_returns_content" rows="6">{{ old('legal_returns_content', $settings?->legal_returns_content) }}</x-textarea>
-                        </div>
-                    </div>
-                </section>
             </div>
 
             <div class="mt-6 flex justify-end">
