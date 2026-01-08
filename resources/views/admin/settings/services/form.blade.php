@@ -48,9 +48,13 @@
                     <x-label class="mt-2">Imagen</x-label>
                     <x-input class="w-full" name="image" type="file" accept="image/*" />
                     @if ($service->image_path)
+                        @php
+                            $serviceImageUrl = \Illuminate\Support\Facades\Storage::disk('public')->exists($service->image_path)
+                                ? \Illuminate\Support\Facades\Storage::url($service->image_path)
+                                : asset('img/image_placeholder.jpg');
+                        @endphp
                         <div class="mt-3 flex items-center gap-3 text-xs text-slate-600">
-                            <img class="h-12 w-auto" src="{{ \Illuminate\Support\Facades\Storage::url($service->image_path) }}"
-                                alt="Imagen del servicio" />
+                            <img class="h-12 w-auto" src="{{ $serviceImageUrl }}" alt="Imagen del servicio" />
                             <span>Imagen actual</span>
                         </div>
                     @endif

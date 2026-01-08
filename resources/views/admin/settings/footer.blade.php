@@ -57,7 +57,9 @@
                 $footerLogoUrl = $footerLogo
                     ? (\Illuminate\Support\Str::startsWith($footerLogo, ['http://', 'https://', '/'])
                         ? $footerLogo
-                        : \Illuminate\Support\Facades\Storage::url($footerLogo))
+                        : (\Illuminate\Support\Facades\Storage::disk('public')->exists($footerLogo)
+                            ? \Illuminate\Support\Facades\Storage::url($footerLogo)
+                            : asset('img/logo.png')))
                     : null;
             @endphp
 

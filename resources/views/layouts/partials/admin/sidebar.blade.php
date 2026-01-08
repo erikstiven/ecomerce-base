@@ -29,6 +29,7 @@
             'icon' => 'building-2',
             'route' => route('admin.settings.company.edit'),
             'active' => request()->routeIs('admin.settings.company.*')
+                || request()->routeIs('admin.settings.company.location.*')
                 || request()->routeIs('admin.settings.company.services.*')
                 || request()->routeIs('admin.settings.company.faqs.*')
                 || request()->routeIs('admin.settings.footer.*'),
@@ -37,13 +38,13 @@
                     'name' => 'Quiénes somos',
                     'icon' => 'users',
                     'route' => route('admin.settings.company.edit'),
-                    'active' => request()->routeIs('admin.settings.company.*'),
+                    'active' => request()->routeIs('admin.settings.company.edit'),
                 ],
                 [
                     'name' => 'Ubicación',
                     'icon' => 'map-pin',
-                    'route' => route('admin.settings.company.edit'),
-                    'active' => request()->routeIs('admin.settings.company.*'),
+                    'route' => route('admin.settings.company.location.edit'),
+                    'active' => request()->routeIs('admin.settings.company.location.*'),
                 ],
                 [
                     'name' => 'Servicios',
@@ -181,7 +182,7 @@
                                     @foreach ($link['children'] as $child)
                                         <li>
                                             <a href="{{ $child['route'] }}"
-                                                class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-slate-800/70 hover:text-white transition-colors {{ $child['active'] ? 'bg-indigo-500/20 ring-1 ring-indigo-400/40 text-white' : '' }}">
+                                                class="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-slate-800/70 hover:text-white transition-colors {{ $child['active'] ? 'text-indigo-300 font-semibold' : '' }}">
                                                 <span class="inline-flex w-4 h-4 justify-center items-center">
                                                     <i data-lucide="{{ $child['icon'] }}" class="w-4 h-4"></i>
                                                 </span>
