@@ -5,65 +5,65 @@
 @php
     $about = $data ?? [
         // Editable (admin): eyebrow (texto corto para identificar la sección, max 3-4 palabras)
-        'eyebrow' => 'Sobre nosotros',
+        'eyebrow' => 'Sobre la tienda',
         // Editable (admin): title (headline principal, 5-9 palabras)
-        'title' => 'Impulsamos tiendas que venden más',
+        'title' => 'Construimos experiencias de compra confiables',
         // Editable (admin): lead (bajada breve, 1-2 frases)
-        'lead' => 'Somos el socio digital de marcas que buscan crecer con confianza, experiencia y una operación impecable.',
+        'lead' => 'Acompañamos a cada negocio con una experiencia clara, cercana y adaptable a su etapa.',
         // Editable (admin): mission (párrafo corto, 2-3 líneas)
-        'mission' => 'Diseñamos experiencias de compra claras, rápidas y seguras para que cada visita se convierta en una venta.',
+        'mission' => 'Creamos recorridos simples y seguros para que comprar sea fácil desde el primer clic.',
         // Editable (admin): story (párrafo corto, 2-3 líneas)
-        'story' => 'Unimos estrategia, tecnología y un equipo cercano que entiende lo que necesita tu negocio en cada etapa.',
+        'story' => 'Combinamos estrategia, diseño y soporte humano para responder a las necesidades de cada marca.',
         // Editable (admin): image (URL y texto alternativo de la imagen principal)
         'image' => [
             'src' => 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=80',
             'alt' => 'Equipo de ecommerce trabajando en conjunto',
             // Editable (admin): caption (texto de apoyo opcional, 5-8 palabras)
-            'caption' => 'Equipo experto en crecimiento digital',
+            'caption' => 'Equipo enfocado en soluciones personalizadas',
         ],
         // Editable (admin): cta (texto y destino del botón principal)
         'cta' => [
-            'label' => 'Conoce nuestra historia',
+            'label' => 'Descubre cómo trabajamos',
             'url' => '#contacto',
         ],
         // Editable (admin): stats (lista de métricas destacadas)
         'stats' => [
             [
-                'value' => '+2.500',
-                'label' => 'Clientes activos en LATAM',
+                'value' => 'Atención cercana',
+                'label' => 'Acompañamiento en cada etapa',
             ],
             [
-                'value' => '24/7',
-                'label' => 'Soporte cercano y humano',
+                'value' => 'Procesos claros',
+                'label' => 'Información simple y transparente',
             ],
             [
-                'value' => '98%',
-                'label' => 'Satisfacción en entregas',
+                'value' => 'Compra confiable',
+                'label' => 'Seguridad y confianza para tus clientes',
             ],
         ],
         // Editable (admin): values (lista de pilares de marca)
         'values' => [
             [
-                'title' => 'Transparencia total',
-                'description' => 'Comunicación clara, métricas visibles y acompañamiento continuo.',
+                'title' => 'Transparencia',
+                'description' => 'Comunicación clara y accesible para clientes y equipos.',
             ],
             [
-                'title' => 'Experiencia premium',
-                'description' => 'Cada detalle está pensado para que tus clientes confíen y vuelvan.',
+                'title' => 'Experiencia cuidada',
+                'description' => 'Detalles pensados para generar confianza y fidelidad.',
             ],
             [
-                'title' => 'Eficiencia operativa',
-                'description' => 'Procesos ágiles que reducen fricción y aceleran tu crecimiento.',
+                'title' => 'Flexibilidad',
+                'description' => 'Procesos que se ajustan a negocios nuevos o en crecimiento.',
             ],
         ],
         // Editable (admin): trust (título y lista de sellos/garantías)
         'trust' => [
-            'title' => 'Compras seguras en cada paso',
-            'items' => [
-                'Pagos protegidos con cifrado SSL',
-                'Políticas de cambio claras y visibles',
-                'Logística confiable con tracking en tiempo real',
-            ],
+            'title' => 'Confianza en cada paso',
+                'items' => [
+                    'Pagos seguros y opciones visibles',
+                    'Políticas claras y fáciles de entender',
+                    'Acompañamiento antes y después de la compra',
+                ],
         ],
     ];
 @endphp
@@ -102,7 +102,7 @@
                         <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-violet-100 text-violet-600 dark:bg-violet-500/20 dark:text-violet-200">
                             ★
                         </span>
-                        Marcas que confían en nosotros
+                        Compromiso con cada cliente
                     </div>
                 </div>
 
