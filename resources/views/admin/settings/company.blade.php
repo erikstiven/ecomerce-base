@@ -83,7 +83,7 @@
                         <div class="md:col-span-2">
                             <div class="flex items-center gap-2">
                                 <x-checkbox name="about_show_stats" :checked="old('about_show_stats', $settings?->about_show_stats ?? true)" />
-                                <x-label>Mostrar stats</x-label>
+                                <x-label>Mostrar indicadores</x-label>
                             </div>
                             <x-label class="mt-2">Indicadores (una línea por ítem)</x-label>
                             <x-textarea class="w-full" name="about_stats" rows="4">{{ old('about_stats', $settings?->about_stats) }}</x-textarea>

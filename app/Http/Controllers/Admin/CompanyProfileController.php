@@ -44,6 +44,20 @@ class CompanyProfileController extends Controller
             'about_show_trust' => ['nullable', 'boolean'],
             'about_show_values' => ['nullable', 'boolean'],
             'about_show_cta' => ['nullable', 'boolean'],
+        ], [
+            'about_show_narrative.boolean' => 'El campo ":attribute" debe estar activado o desactivado.',
+            'about_show_stats.boolean' => 'El campo ":attribute" debe estar activado o desactivado.',
+            'about_show_image.boolean' => 'El campo ":attribute" debe estar activado o desactivado.',
+            'about_show_trust.boolean' => 'El campo ":attribute" debe estar activado o desactivado.',
+            'about_show_values.boolean' => 'El campo ":attribute" debe estar activado o desactivado.',
+            'about_show_cta.boolean' => 'El campo ":attribute" debe estar activado o desactivado.',
+        ], [
+            'about_show_narrative' => 'Mostrar bloque narrativo',
+            'about_show_stats' => 'Mostrar indicadores',
+            'about_show_image' => 'Mostrar imagen',
+            'about_show_trust' => 'Mostrar bloque de confianza',
+            'about_show_values' => 'Mostrar valores',
+            'about_show_cta' => 'Mostrar botón principal',
         ]);
 
         $validated['about_show_narrative'] = $request->boolean('about_show_narrative');
