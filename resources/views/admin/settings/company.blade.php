@@ -30,7 +30,7 @@
                     <div class="mt-4 grid gap-6 md:grid-cols-2">
                         {{-- Header: eyebrow, title, lead --}}
                         <div class="md:col-span-2">
-                            <x-label class="mt-2">Eyebrow</x-label>
+                            <x-label class="mt-2">Texto superior</x-label>
                             <x-input class="w-full" name="about_eyebrow" value="{{ old('about_eyebrow', $settings?->about_eyebrow) }}" />
                             <p class="mt-1 text-xs text-slate-500">Texto corto para identificar la sección.</p>
                         </div>
@@ -39,7 +39,7 @@
                             <x-input class="w-full" name="about_title" value="{{ old('about_title', $settings?->about_title) }}" />
                         </div>
                         <div class="md:col-span-2">
-                            <x-label class="mt-2">Lead</x-label>
+                            <x-label class="mt-2">Descripción corta</x-label>
                             <x-textarea class="w-full" name="about_lead" rows="3">{{ old('about_lead', $settings?->about_lead) }}</x-textarea>
                         </div>
 
@@ -85,7 +85,7 @@
                                 <x-checkbox name="about_show_stats" :checked="old('about_show_stats', $settings?->about_show_stats ?? true)" />
                                 <x-label>Mostrar stats</x-label>
                             </div>
-                            <x-label class="mt-2">Stats (una línea por ítem)</x-label>
+                            <x-label class="mt-2">Indicadores (una línea por ítem)</x-label>
                             <x-textarea class="w-full" name="about_stats" rows="4">{{ old('about_stats', $settings?->about_stats) }}</x-textarea>
                             <p class="mt-1 text-xs text-slate-500">Formato: Valor | Descripción (ejemplo: Atención cercana | Acompañamiento en cada etapa).</p>
                         </div>
