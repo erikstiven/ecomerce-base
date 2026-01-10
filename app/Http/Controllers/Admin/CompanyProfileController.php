@@ -25,7 +25,7 @@ class CompanyProfileController extends Controller
         $validated = $request->validate([
             'about_eyebrow' => ['nullable', 'string', 'max:120'],
             'about_title' => ['nullable', 'string', 'max:255'],
-            'about_lead' => ['nullable', 'string', 'max:2000'],
+            'about_lead' => ['nullable', 'string', 'max:5000'],
             'about_mission' => ['nullable', 'string', 'max:3000'],
             'about_story' => ['nullable', 'string', 'max:3000'],
             'about_cta_label' => ['nullable', 'string', 'max:255'],
