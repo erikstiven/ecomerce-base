@@ -38,26 +38,12 @@ class CompanyProfileController extends Controller
             'about_trust_title' => ['nullable', 'string', 'max:255'],
             'about_trust_items' => ['nullable', 'string', 'max:4000'],
             'about_values' => ['nullable', 'string', 'max:4000'],
-            'about_show_narrative' => ['nullable', 'boolean'],
-            'about_show_stats' => ['nullable', 'boolean'],
-            'about_show_image' => ['nullable', 'boolean'],
-            'about_show_trust' => ['nullable', 'boolean'],
-            'about_show_values' => ['nullable', 'boolean'],
-            'about_show_cta' => ['nullable', 'boolean'],
-        ], [
-            'about_show_narrative.boolean' => 'El campo ":attribute" debe estar activado o desactivado.',
-            'about_show_stats.boolean' => 'El campo ":attribute" debe estar activado o desactivado.',
-            'about_show_image.boolean' => 'El campo ":attribute" debe estar activado o desactivado.',
-            'about_show_trust.boolean' => 'El campo ":attribute" debe estar activado o desactivado.',
-            'about_show_values.boolean' => 'El campo ":attribute" debe estar activado o desactivado.',
-            'about_show_cta.boolean' => 'El campo ":attribute" debe estar activado o desactivado.',
-        ], [
-            'about_show_narrative' => 'Mostrar bloque narrativo',
-            'about_show_stats' => 'Mostrar indicadores',
-            'about_show_image' => 'Mostrar imagen',
-            'about_show_trust' => 'Mostrar bloque de confianza',
-            'about_show_values' => 'Mostrar valores',
-            'about_show_cta' => 'Mostrar botón principal',
+            'about_show_narrative' => ['nullable'],
+            'about_show_stats' => ['nullable'],
+            'about_show_image' => ['nullable'],
+            'about_show_trust' => ['nullable'],
+            'about_show_values' => ['nullable'],
+            'about_show_cta' => ['nullable'],
         ]);
 
         $validated['about_show_narrative'] = $request->boolean('about_show_narrative');
