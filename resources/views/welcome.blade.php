@@ -62,8 +62,6 @@
         </div>
     </x-container>
 
-    <x-about-us-section />
-
     <x-services-section :services="$services" />
 
     @push('js')
