@@ -45,6 +45,8 @@ class DatabaseSeeder extends Seeder
             [
                 PermissionSeeder::class,
                 RoleSeeder::class,
+                AboutUsSeeder::class,
+                ServicesSeeder::class,
                 //FamilySeeder::class,                    // Add other seeders here if needed
                 //OptionSeeder::class,
             ]
