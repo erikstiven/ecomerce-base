@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cover;
-use App\Models\CompanyService;
 use App\Models\Product;
 
 class WelcomeController extends Controller
@@ -22,12 +21,6 @@ class WelcomeController extends Controller
         $lastProducts = Product::orderBy('created_at', 'desc')
             ->take(8)
             ->get();
-        $services = CompanyService::query()
-            ->where('is_active', true)
-            ->orderBy('sort_order')
-            ->orderBy('id')
-            ->get();
-
-        return view('welcome', compact('covers', 'lastProducts', 'services'));
+        return view('welcome', compact('covers', 'lastProducts'));
     }
 }

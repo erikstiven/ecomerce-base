@@ -8,7 +8,7 @@
                 <a href="{{ route('servicios') }}" class="hover:text-white transition">Servicios</a>
                 <a href="{{ route('sobre-nosotros') }}" class="hover:text-white transition">Sobre nosotros</a>
                 <a href="{{ route('ubicacion') }}" class="hover:text-white transition">Ubicación</a>
-                <a href="{{ route('legal.faq') }}" class="hover:text-white transition">FAQ</a>
+                <a href="{{ route('faq') }}" class="hover:text-white transition">FAQ</a>
             </nav>
         </x-container>
     </div>
