@@ -45,8 +45,9 @@
                 </div>
 
                 <div class="md:col-span-2">
-                    <x-label class="mt-2">Imagen</x-label>
+                    <x-label class="mt-2">Icono o imagen (opcional)</x-label>
                     <x-input class="w-full" name="image" type="file" accept="image/*" />
+                    <p class="mt-1 text-xs text-slate-500">Si no subes imagen, se mostrará un ícono por defecto.</p>
                     @if ($service->image_path)
                         @php
                             $serviceImageUrl = \Illuminate\Support\Facades\Storage::disk('public')->exists($service->image_path)

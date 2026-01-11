@@ -18,7 +18,31 @@ class CompanyServiceController extends Controller
     {
         return view('admin/settings/services/index', [
             'services' => CompanyService::query()->orderBy('sort_order')->orderBy('id')->get(),
+            'settings' => \App\Models\CompanySetting::query()->first(),
         ]);
+    }
+
+    public function updateSettings(Request $request)
+    {
+        $validated = $request->validate([
+            'services_title' => ['nullable', 'string', 'max:255'],
+            'services_intro' => ['nullable', 'string', 'max:2000'],
+            'services_cta_label' => ['nullable', 'string', 'max:255'],
+            'services_cta_url' => ['nullable', 'string', 'max:255'],
+            'services_show_section' => ['nullable'],
+            'services_show_cta' => ['nullable'],
+        ]);
+
+        $validated['services_show_section'] = $request->boolean('services_show_section');
+        $validated['services_show_cta'] = $request->boolean('services_show_cta');
+
+        $settings = \App\Models\CompanySetting::query()->firstOrNew();
+        $settings->fill($validated);
+        $settings->save();
+
+        return redirect()
+            ->route('admin.settings.company.services.index')
+            ->with('status', 'Configuración de servicios actualizada.');
     }
 
     public function create()

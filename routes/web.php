@@ -156,6 +156,7 @@ Route::view('/terminos-y-condiciones', 'legal.terminos')->name('legal.terminos')
 Route::view('/politica-privacidad', 'legal.privacidad')->name('legal.privacidad');
 Route::view('/politica-devoluciones', 'legal.devoluciones')->name('legal.devoluciones');
 Route::view('/preguntas-frecuentes', 'legal.faq')->name('legal.faq');
+Route::view('/faq', 'legal.faq')->name('faq');
 
 // Envíos
 Route::get('shipping', [ShippingController::class, 'index'])

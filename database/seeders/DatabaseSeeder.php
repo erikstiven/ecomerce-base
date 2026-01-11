@@ -27,16 +27,18 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);*/
 
-        //crear un usuario administrador
-        \App\Models\User::factory()->create([
-            'name' => 'Erik Stiven',
-            'last_name' => 'Quisnia Tierra',
-            'document_type' => 1, // Assuming 1 is a valid document type
-            'document_number' => '0705871689',
-            'email' => 'erikquisnia@gmail.com',
-            'phone' => '0979018689',
-            'password' => bcrypt('Nasa4036@'), // Password is hashed
-        ]);
+        //crear un usuario administrador si no existe
+        \App\Models\User::query()->firstOrCreate(
+            ['email' => 'erikquisnia@gmail.com'],
+            [
+                'name' => 'Erik Stiven',
+                'last_name' => 'Quisnia Tierra',
+                'document_type' => 1, // Assuming 1 is a valid document type
+                'document_number' => '0705871689',
+                'phone' => '0979018689',
+                'password' => bcrypt('Nasa4036@'), // Password is hashed
+            ]
+        );
 
         \App\Models\User::factory(20)->create();
 
@@ -45,6 +47,8 @@ class DatabaseSeeder extends Seeder
             [
                 PermissionSeeder::class,
                 RoleSeeder::class,
+                AboutUsSeeder::class,
+                ServicesSeeder::class,
                 //FamilySeeder::class,                    // Add other seeders here if needed
                 //OptionSeeder::class,
             ]

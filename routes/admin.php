@@ -38,6 +38,8 @@ Route::put('/settings/company/location', [CompanyProfileController::class, 'upda
 Route::resource('/settings/company/services', CompanyServiceController::class)
     ->names('settings.company.services')
     ->except(['show']);
+Route::put('/settings/company/services/settings', [CompanyServiceController::class, 'updateSettings'])
+    ->name('settings.company.services.settings');
 Route::resource('/settings/company/faqs', FaqController::class)
     ->names('settings.company.faqs')
     ->except(['show']);
