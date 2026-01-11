@@ -56,18 +56,24 @@
                         $title = $service['title'] ?? $service->title ?? $fallback;
                         $description = $service['description'] ?? $service->description ?? $fallback;
                         $imagePath = $service['image_path'] ?? $service->image_path ?? null;
-                        $imageUrl = $imagePath
-                            ? (\Illuminate\Support\Facades\Storage::disk('public')->exists($imagePath)
-                                ? \Illuminate\Support\Facades\Storage::url($imagePath)
-                                : $imageFallback)
-                            : $imageFallback;
+                        $hasImage = $imagePath && \Illuminate\Support\Facades\Storage::disk('public')->exists($imagePath);
+                        $imageUrl = $hasImage
+                            ? \Illuminate\Support\Facades\Storage::url($imagePath)
+                            : null;
                     @endphp
 
                     <article class="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900">
                         <div class="flex items-center gap-4">
                             <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-100 text-violet-600 dark:bg-violet-500/20 dark:text-violet-200">
-                                <img src="{{ $imageUrl }}" alt="{{ $title }}" class="h-8 w-8 rounded-lg object-cover"
-                                    onerror="this.onerror=null;this.src='{{ $imageFallback }}';" />
+                                @if ($imageUrl)
+                                    <img src="{{ $imageUrl }}" alt="{{ $title }}" class="h-8 w-8 rounded-lg object-cover" />
+                                @else
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24"
+                                        fill="currentColor" aria-hidden="true">
+                                        <path
+                                            d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm4.2 6.8-4.93 6.04a1 1 0 0 1-1.52.08l-2.93-3.2 1.48-1.36 2.18 2.38 4.17-5.11Z" />
+                                    </svg>
+                                @endif
                             </div>
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $title ?: $fallback }}</h3>
                         </div>
