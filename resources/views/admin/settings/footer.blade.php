@@ -28,27 +28,32 @@
                 <div>
                     <x-label class="mt-2">Nombre de la empresa</x-label>
                     <x-input class="w-full" name="name" value="{{ old('name', $settings?->name) }}" />
+                    <p class="mt-1 text-xs text-slate-500">Se muestra en el footer como nombre comercial.</p>
                 </div>
                 <div>
                     <x-label class="mt-2">Nombre legal</x-label>
                     <x-input class="w-full" name="legal_company_name"
                         value="{{ old('legal_company_name', $settings?->legal_company_name) }}" />
+                    <p class="mt-1 text-xs text-slate-500">Se usa en el aviso legal de derechos reservados.</p>
                 </div>
             </div>
 
             <div class="mt-4">
                 <x-label class="mt-2">Descripción corta</x-label>
                 <x-textarea class="w-full" name="footer_description" rows="2">{{ old('footer_description', $settings?->footer_description) }}</x-textarea>
+                <p class="mt-1 text-xs text-slate-500">Resumen breve que acompaña el logo en el footer.</p>
             </div>
 
             <div class="mt-4 grid gap-6 md:grid-cols-2">
                 <div>
                     <x-label class="mt-2">Email de contacto</x-label>
                     <x-input class="w-full" name="footer_email" value="{{ old('footer_email', $settings?->footer_email) }}" />
+                    <p class="mt-1 text-xs text-slate-500">Se muestra como enlace de contacto en el footer.</p>
                 </div>
                 <div>
                     <x-label class="mt-2">Teléfono de contacto</x-label>
                     <x-input class="w-full" name="footer_phone" value="{{ old('footer_phone', $settings?->footer_phone) }}" />
+                    <p class="mt-1 text-xs text-slate-500">Se usa si no hay email configurado.</p>
                 </div>
             </div>
 
@@ -66,6 +71,7 @@
             <div class="mt-4">
                 <x-label class="mt-2">Logo</x-label>
                 <x-input class="w-full" name="footer_logo" type="file" accept="image/*" />
+                <p class="mt-1 text-xs text-slate-500">Puedes subir una imagen o pegar una URL abajo.</p>
                 @if ($footerLogoUrl)
                     <div class="mt-3 flex items-center gap-3 text-xs text-slate-600">
                         <img class="h-10 w-auto" src="{{ $footerLogoUrl }}" alt="Logo actual" />
@@ -74,24 +80,34 @@
                 @endif
             </div>
 
+            <div class="mt-4">
+                <x-label class="mt-2">URL del logo (opcional)</x-label>
+                <x-input class="w-full" name="footer_logo_url" value="{{ old('footer_logo_url') }}" />
+                <p class="mt-1 text-xs text-slate-500">Usa un enlace directo (https://...) si prefieres no subir archivos.</p>
+            </div>
+
             <div class="mt-6">
                 <h2 class="text-sm font-semibold text-slate-700">Redes sociales</h2>
                 <div class="mt-3 grid gap-4 md:grid-cols-2">
                     <div>
                         <x-label class="mt-2">Facebook</x-label>
                         <x-input class="w-full" name="facebook" value="{{ old('facebook', $settings?->facebook) }}" />
+                        <p class="mt-1 text-xs text-slate-500">Enlace completo del perfil.</p>
                     </div>
                     <div>
                         <x-label class="mt-2">Instagram</x-label>
                         <x-input class="w-full" name="instagram" value="{{ old('instagram', $settings?->instagram) }}" />
+                        <p class="mt-1 text-xs text-slate-500">Enlace completo del perfil.</p>
                     </div>
                     <div>
                         <x-label class="mt-2">TikTok</x-label>
                         <x-input class="w-full" name="tiktok" value="{{ old('tiktok', $settings?->tiktok) }}" />
+                        <p class="mt-1 text-xs text-slate-500">Enlace completo del perfil.</p>
                     </div>
                     <div>
                         <x-label class="mt-2">YouTube</x-label>
                         <x-input class="w-full" name="youtube" value="{{ old('youtube', $settings?->youtube) }}" />
+                        <p class="mt-1 text-xs text-slate-500">Enlace completo del canal.</p>
                     </div>
                 </div>
             </div>
