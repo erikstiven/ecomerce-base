@@ -14,6 +14,11 @@
             $locationAddress = setting('location_address', '');
             $locationCity = setting('location_city', '');
             $locationCountry = setting('location_country', '');
+            $locationContactText = setting('location_contact_text', '');
+            $locationEmail = setting('location_email', '');
+            $locationPhonePrimary = setting('location_phone_primary', '');
+            $locationPhoneSecondary = setting('location_phone_secondary', '');
+            $locationPhoneSales = setting('location_phone_sales', '');
 
             $mapHasIframe = \Illuminate\Support\Str::contains((string) $locationMapEmbed, '<iframe');
             $mapEmbedHtml = $mapHasIframe
@@ -29,6 +34,11 @@
             $address = trim((string) $locationAddress) !== '' ? $locationAddress : $fallback;
             $city = trim((string) $locationCity) !== '' ? $locationCity : $fallback;
             $country = trim((string) $locationCountry) !== '' ? $locationCountry : $fallback;
+            $contactText = trim((string) $locationContactText) !== '' ? $locationContactText : $fallback;
+            $email = trim((string) $locationEmail) !== '' ? $locationEmail : $fallback;
+            $phonePrimary = trim((string) $locationPhonePrimary) !== '' ? $locationPhonePrimary : $fallback;
+            $phoneSecondary = trim((string) $locationPhoneSecondary) !== '' ? $locationPhoneSecondary : $fallback;
+            $phoneSales = trim((string) $locationPhoneSales) !== '' ? $locationPhoneSales : $fallback;
         @endphp
 
         <header class="text-center mb-8">
@@ -95,8 +105,23 @@
                     Información de contacto
                 </h3>
 
-                <div class="mt-4 text-sm text-gray-700">
-                    {{ $fallback }}
+                <div class="mt-4 space-y-4 text-sm">
+                    <div class="text-gray-700">
+                        {!! nl2br(e($contactText)) !!}
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-gray-700">Correo</h4>
+                        <a href="{{ $email !== $fallback ? 'mailto:' . $email : '#' }}"
+                            class="text-purple-600 hover:text-purple-700">{{ $email }}</a>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-gray-700">WhatsApp / Teléfonos</h4>
+                        <ul class="mt-2 space-y-1 text-gray-700">
+                            <li>📞 Principal: {{ $phonePrimary }}</li>
+                            <li>📞 Secundario: {{ $phoneSecondary }}</li>
+                            <li>📞 Ventas: {{ $phoneSales }}</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>

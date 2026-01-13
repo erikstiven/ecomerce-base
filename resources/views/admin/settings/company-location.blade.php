@@ -51,6 +51,31 @@
                         <x-textarea class="w-full" name="location_address" rows="3">{{ old('location_address', $settings?->location_address) }}</x-textarea>
                         <p class="mt-1 text-xs text-slate-500">Incluye calle, número y referencias.</p>
                     </div>
+                    <div class="md:col-span-2">
+                        <x-label class="mt-2">Información de contacto</x-label>
+                        <x-textarea class="w-full" name="location_contact_text" rows="3">{{ old('location_contact_text', $settings?->location_contact_text) }}</x-textarea>
+                        <p class="mt-1 text-xs text-slate-500">Agrega un texto corto con instrucciones o canales de contacto.</p>
+                    </div>
+                    <div>
+                        <x-label class="mt-2">Correo de contacto</x-label>
+                        <x-input class="w-full" name="location_email"
+                            value="{{ old('location_email', $settings?->location_email) }}" />
+                    </div>
+                    <div>
+                        <x-label class="mt-2">Teléfono principal</x-label>
+                        <x-input class="w-full" name="location_phone_primary"
+                            value="{{ old('location_phone_primary', $settings?->location_phone_primary) }}" />
+                    </div>
+                    <div>
+                        <x-label class="mt-2">Teléfono secundario</x-label>
+                        <x-input class="w-full" name="location_phone_secondary"
+                            value="{{ old('location_phone_secondary', $settings?->location_phone_secondary) }}" />
+                    </div>
+                    <div>
+                        <x-label class="mt-2">Teléfono ventas</x-label>
+                        <x-input class="w-full" name="location_phone_sales"
+                            value="{{ old('location_phone_sales', $settings?->location_phone_sales) }}" />
+                    </div>
                     <div>
                         <x-label class="mt-2">Ciudad</x-label>
                         <x-input class="w-full" name="location_city"

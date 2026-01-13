@@ -80,6 +80,11 @@ class CompanyProfileController extends Controller
             'location_map_embed' => ['nullable', 'string', 'max:4000', 'required_without_all:location_map_latitude,location_map_longitude'],
             'location_map_latitude' => ['nullable', 'numeric', 'between:-90,90', 'required_without:location_map_embed', 'required_with:location_map_longitude'],
             'location_map_longitude' => ['nullable', 'numeric', 'between:-180,180', 'required_without:location_map_embed', 'required_with:location_map_latitude'],
+            'location_contact_text' => ['nullable', 'string', 'max:3000'],
+            'location_email' => ['nullable', 'email', 'max:255'],
+            'location_phone_primary' => ['nullable', 'string', 'max:50'],
+            'location_phone_secondary' => ['nullable', 'string', 'max:50'],
+            'location_phone_sales' => ['nullable', 'string', 'max:50'],
         ]);
 
         $settings = CompanySetting::query()->firstOrNew();
