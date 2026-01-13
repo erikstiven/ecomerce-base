@@ -50,6 +50,7 @@ class DatabaseSeeder extends Seeder
                 AboutUsSeeder::class,
                 ServicesSeeder::class,
                 LocationSeeder::class,
+                FaqSeeder::class,
                 //FamilySeeder::class,                    // Add other seeders here if needed
                 //OptionSeeder::class,
             ]
