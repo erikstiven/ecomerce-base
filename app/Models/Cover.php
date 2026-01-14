@@ -28,7 +28,17 @@ class Cover extends Model
     protected function image(): Attribute
     {
         return Attribute::make(
-            get: fn() => Storage::url($this->image_path),
+            get: function () {
+                if (!$this->image_path) {
+                    return asset('img/sin-portada.png');
+                }
+
+                if (Storage::disk('public')->exists($this->image_path)) {
+                    return Storage::disk('public')->url($this->image_path);
+                }
+
+                return asset('img/sin-portada.png');
+            },
         );
     }
 }
