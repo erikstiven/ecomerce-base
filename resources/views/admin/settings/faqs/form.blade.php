@@ -35,24 +35,27 @@
             <div class="grid gap-6 md:grid-cols-2">
                 <div class="md:col-span-2">
                     <x-label class="mt-2">Pregunta</x-label>
-                    <x-input class="w-full" name="question" value="{{ old('question', $faq->question) }}" />
+                    <x-input class="w-full" name="question" value="{{ old('question', $faq->question) }}" required />
+                    <p class="mt-1 text-xs text-slate-500">Escribe la duda principal del cliente.</p>
                 </div>
 
                 <div class="md:col-span-2">
                     <x-label class="mt-2">Respuesta</x-label>
-                    <x-textarea class="w-full" name="answer" rows="5">{{ old('answer', $faq->answer) }}</x-textarea>
+                    <x-textarea class="w-full" name="answer" rows="5" required>{{ old('answer', $faq->answer) }}</x-textarea>
+                    <p class="mt-1 text-xs text-slate-500">Usa un texto claro y directo para resolver la duda.</p>
                 </div>
 
                 <div>
                     <x-label class="mt-2">Orden</x-label>
                     <x-input class="w-full" name="sort_order" type="number"
                         value="{{ old('sort_order', $faq->sort_order ?? 0) }}" />
+                    <p class="mt-1 text-xs text-slate-500">Controla el orden de aparición en la landing.</p>
                 </div>
 
                 <div class="flex items-center gap-2 pt-8">
                     <input type="checkbox" name="is_active" value="1" class="rounded border-slate-300"
                         {{ old('is_active', $faq->is_active) ? 'checked' : '' }}>
-                    <span class="text-sm text-slate-700">Activo</span>
+                    <span class="text-sm text-slate-700">Mostrar pregunta en la landing</span>
                 </div>
             </div>
 

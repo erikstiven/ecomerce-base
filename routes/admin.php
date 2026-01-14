@@ -43,6 +43,8 @@ Route::put('/settings/company/services/settings', [CompanyServiceController::cla
 Route::resource('/settings/company/faqs', FaqController::class)
     ->names('settings.company.faqs')
     ->except(['show']);
+Route::put('/settings/company/faqs/settings', [FaqController::class, 'updateSettings'])
+    ->name('settings.company.faqs.settings');
 
 Route::resource('families', FamilyController::class);
 Route::resource('categories', CategoryController::class);
