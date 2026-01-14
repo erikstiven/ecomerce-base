@@ -49,6 +49,8 @@ class DatabaseSeeder extends Seeder
                 RoleSeeder::class,
                 AboutUsSeeder::class,
                 ServicesSeeder::class,
+                LocationSeeder::class,
+                FaqSeeder::class,
                 //FamilySeeder::class,                    // Add other seeders here if needed
                 //OptionSeeder::class,
             ]

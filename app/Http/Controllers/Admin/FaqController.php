@@ -17,6 +17,7 @@ class FaqController extends Controller
     {
         return view('admin/settings/faqs/index', [
             'faqs' => Faq::query()->orderBy('sort_order')->orderBy('id')->get(),
+            'settings' => \App\Models\CompanySetting::query()->first(),
         ]);
     }
 
@@ -80,5 +81,24 @@ class FaqController extends Controller
         return redirect()
             ->route('admin.settings.company.faqs.index')
             ->with('status', 'Pregunta eliminada correctamente.');
+    }
+
+    public function updateSettings(Request $request)
+    {
+        $validated = $request->validate([
+            'faq_title' => ['nullable', 'string', 'max:255'],
+            'faq_content' => ['nullable', 'string', 'max:2000'],
+            'faq_show_section' => ['nullable'],
+        ]);
+
+        $validated['faq_show_section'] = $request->boolean('faq_show_section');
+
+        $settings = \App\Models\CompanySetting::query()->firstOrNew();
+        $settings->fill($validated);
+        $settings->save();
+
+        return redirect()
+            ->route('admin.settings.company.faqs.index')
+            ->with('status', 'Configuración de FAQ actualizada.');
     }
 }

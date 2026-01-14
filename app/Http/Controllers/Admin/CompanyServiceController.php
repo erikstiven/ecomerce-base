@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CompanyService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CompanyServiceController extends Controller
 {
@@ -56,19 +55,13 @@ class CompanyServiceController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:2000'],
-            'image' => ['nullable', 'image', 'max:2048'],
+            'description' => ['required', 'string', 'max:2000'],
+            'image_path' => ['required', 'url', 'max:2000'],
             'is_active' => ['nullable', 'boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
 
         $service = new CompanyService();
-
-        if ($request->hasFile('image')) {
-            Storage::disk('public')->makeDirectory('company-services');
-            $path = $request->file('image')->store('company-services', 'public');
-            $validated['image_path'] = $path;
-        }
 
         $service->fill($validated);
         $service->is_active = (bool) ($validated['is_active'] ?? false);
@@ -91,17 +84,11 @@ class CompanyServiceController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:2000'],
-            'image' => ['nullable', 'image', 'max:2048'],
+            'description' => ['required', 'string', 'max:2000'],
+            'image_path' => ['required', 'url', 'max:2000'],
             'is_active' => ['nullable', 'boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ]);
-
-        if ($request->hasFile('image')) {
-            Storage::disk('public')->makeDirectory('company-services');
-            $path = $request->file('image')->store('company-services', 'public');
-            $validated['image_path'] = $path;
-        }
 
         $service->fill($validated);
         $service->is_active = (bool) ($validated['is_active'] ?? false);

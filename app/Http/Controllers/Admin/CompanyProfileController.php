@@ -74,14 +74,17 @@ class CompanyProfileController extends Controller
         $validated = $request->validate([
             'location_title' => ['nullable', 'string', 'max:255'],
             'location_description' => ['nullable', 'string', 'max:2000'],
-            'location_map_embed' => ['nullable', 'string', 'max:4000'],
             'location_address' => ['nullable', 'string', 'max:1000'],
-            'location_hours' => ['nullable', 'string', 'max:1000'],
+            'location_city' => ['nullable', 'string', 'max:255'],
+            'location_country' => ['nullable', 'string', 'max:255'],
+            'location_map_embed' => ['nullable', 'string', 'max:4000', 'required_without_all:location_map_latitude,location_map_longitude'],
+            'location_map_latitude' => ['nullable', 'numeric', 'between:-90,90', 'required_without:location_map_embed', 'required_with:location_map_longitude'],
+            'location_map_longitude' => ['nullable', 'numeric', 'between:-180,180', 'required_without:location_map_embed', 'required_with:location_map_latitude'],
+            'location_contact_text' => ['nullable', 'string', 'max:3000'],
             'location_email' => ['nullable', 'email', 'max:255'],
             'location_phone_primary' => ['nullable', 'string', 'max:50'],
             'location_phone_secondary' => ['nullable', 'string', 'max:50'],
             'location_phone_sales' => ['nullable', 'string', 'max:50'],
-            'location_contact_text' => ['nullable', 'string', 'max:3000'],
         ]);
 
         $settings = CompanySetting::query()->firstOrNew();

@@ -14,6 +14,7 @@ class ServicesSeeder extends Seeder
     public function run(): void
     {
         $fallback = 'codecima codecima codecima codecima';
+        $defaultImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS79uc4vgk3d9qnZWexkYAK78y0k4FvuAgxkA&s';
 
         $defaults = [
             'services_title' => 'Servicios que se adaptan a tu negocio',
@@ -52,18 +53,21 @@ class ServicesSeeder extends Seeder
             [
                 'title' => 'Estrategia comercial',
                 'description' => 'Definimos objetivos, propuesta de valor y prioridades para vender mejor.',
+                'image_path' => $defaultImage,
                 'is_active' => true,
                 'sort_order' => 1,
             ],
             [
                 'title' => 'Experiencia de compra',
                 'description' => 'Diseñamos recorridos claros para facilitar la decisión del cliente.',
+                'image_path' => $defaultImage,
                 'is_active' => true,
                 'sort_order' => 2,
             ],
             [
                 'title' => 'Gestión y soporte',
                 'description' => 'Acompañamiento continuo para operar sin fricciones.',
+                'image_path' => $defaultImage,
                 'is_active' => true,
                 'sort_order' => 3,
             ],
