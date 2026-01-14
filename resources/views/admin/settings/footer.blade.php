@@ -18,7 +18,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('admin.settings.footer.update') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('admin.settings.footer.update') }}">
             @csrf
             @method('PUT')
 
@@ -69,21 +69,15 @@
             @endphp
 
             <div class="mt-4">
-                <x-label class="mt-2">Logo</x-label>
-                <x-input class="w-full" name="footer_logo" type="file" accept="image/*" />
-                <p class="mt-1 text-xs text-slate-500">Puedes subir una imagen o pegar una URL abajo.</p>
+                <x-label class="mt-2">URL del logo</x-label>
+                <x-input class="w-full" name="footer_logo" value="{{ old('footer_logo', $settings?->footer_logo) }}" />
+                <p class="mt-1 text-xs text-slate-500">Usa un enlace directo (https://...) para mostrar el logo en el footer.</p>
                 @if ($footerLogoUrl)
                     <div class="mt-3 flex items-center gap-3 text-xs text-slate-600">
                         <img class="h-10 w-auto" src="{{ $footerLogoUrl }}" alt="Logo actual" />
                         <span>Logo actual</span>
                     </div>
                 @endif
-            </div>
-
-            <div class="mt-4">
-                <x-label class="mt-2">URL del logo (opcional)</x-label>
-                <x-input class="w-full" name="footer_logo_url" value="{{ old('footer_logo_url') }}" />
-                <p class="mt-1 text-xs text-slate-500">Usa un enlace directo (https://...) si prefieres no subir archivos.</p>
             </div>
 
             <div class="mt-6">
