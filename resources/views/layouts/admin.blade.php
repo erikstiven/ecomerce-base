@@ -53,6 +53,12 @@
 
     @stack('js')
 
+    @if (session('swal'))
+        <script>
+            Swal.fire({!! json_encode(session('swal')) !!});
+        </script>
+    @endif
+
     {{-- SweetAlert desde Livewire --}}
     <script>
         Livewire.on('swal', data => {
