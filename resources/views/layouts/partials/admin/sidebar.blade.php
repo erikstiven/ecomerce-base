@@ -32,7 +32,8 @@
                 || request()->routeIs('admin.settings.company.location.*')
                 || request()->routeIs('admin.settings.company.services.*')
                 || request()->routeIs('admin.settings.company.faqs.*')
-                || request()->routeIs('admin.settings.footer.*'),
+                || request()->routeIs('admin.settings.footer.*')
+                || request()->routeIs('admin.settings.appearance.*'),
             'children' => [
                 [
                     'name' => 'Quiénes somos',
@@ -63,6 +64,12 @@
                     'icon' => 'settings',
                     'route' => route('admin.settings.footer.edit'),
                     'active' => request()->routeIs('admin.settings.footer.*'),
+                ],
+                [
+                    'name' => 'Apariencia',
+                    'icon' => 'palette',
+                    'route' => route('admin.settings.appearance.edit'),
+                    'active' => request()->routeIs('admin.settings.appearance.*'),
                 ],
             ],
         ],

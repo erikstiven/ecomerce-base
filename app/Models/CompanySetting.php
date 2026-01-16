@@ -68,5 +68,18 @@ class CompanySetting extends Model
         'legal_terms_content',
         'legal_privacy_content',
         'legal_returns_content',
+        'nav_top_bg',
+        'nav_top_text',
+        'nav_top_hover',
+        'nav_header_from',
+        'nav_header_via',
+        'nav_header_to',
+        'footer_from',
+        'footer_via',
+        'footer_to',
+        'footer_text',
+        'footer_muted',
+        'typography_font_family',
+        'typography_font_url',
     ];
 }

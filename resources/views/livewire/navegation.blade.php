@@ -1,20 +1,21 @@
 <div x-data="{ open: false }">
 
     <!-- Barra superior (escritorio) -->
-    <div class="hidden md:block bg-[#1d4ed8] text-white/90">
+    <div class="hidden md:block" style="background-color: var(--nav-top-bg);">
         <x-container class="px-4 py-2">
             <nav class="flex items-center justify-center gap-8 text-sm font-semibold">
-                <a href="{{ route('welcome.index') }}" class="hover:text-white transition">Inicio</a>
-                <a href="{{ route('servicios') }}" class="hover:text-white transition">Servicios</a>
-                <a href="{{ route('sobre-nosotros') }}" class="hover:text-white transition">Sobre nosotros</a>
-                <a href="{{ route('ubicacion') }}" class="hover:text-white transition">Ubicación</a>
-                <a href="{{ route('faq') }}" class="hover:text-white transition">FAQ</a>
+                <a href="{{ route('welcome.index') }}" class="nav-top-link transition">Inicio</a>
+                <a href="{{ route('servicios') }}" class="nav-top-link transition">Servicios</a>
+                <a href="{{ route('sobre-nosotros') }}" class="nav-top-link transition">Sobre nosotros</a>
+                <a href="{{ route('ubicacion') }}" class="nav-top-link transition">Ubicación</a>
+                <a href="{{ route('faq') }}" class="nav-top-link transition">FAQ</a>
             </nav>
         </x-container>
     </div>
 
     {{-- HEADER DE LA PÁGINA --}}
-    <header class="rounded-none bg-gradient-to-r from-[#3b0764] via-[#1e3a8a] to-[#7e22ce]">
+    <header class="rounded-none"
+        style="background: linear-gradient(90deg, var(--nav-header-from), var(--nav-header-via), var(--nav-header-to));">
         <x-container class="px-4 py-4">
             <div class="flex justify-between items-center space-x-8">
 
@@ -158,8 +159,8 @@
 
             <!-- Panel izquierdo -->
             <div class="w-full md:w-80 h-screen bg-white flex-shrink-0 pointer-events-auto" x-on:click.stop>
-                <div
-                    class="h-[52px] flex items-center justify-between px-4 text-white font-semibold bg-gradient-to-r from-[#3b0764] via-[#1e3a8a] to-[#7e22ce]">
+                <div class="h-[52px] flex items-center justify-between px-4 text-white font-semibold"
+                    style="background: linear-gradient(90deg, var(--nav-header-from), var(--nav-header-via), var(--nav-header-to));">
                     <span class="text-lg">
                         @auth
                             Hola, {{ Auth::user()->name }}
