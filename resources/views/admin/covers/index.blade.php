@@ -70,9 +70,9 @@
                                 data-cover-delete-form>
                                 @csrf
                                 @method('DELETE')
-                                <x-danger-button type="button" data-cover-delete-button>
+                                <button type="button" class="btn-gradient-red" data-cover-delete-button>
                                     Eliminar
-                                </x-danger-button>
+                                </button>
                             </form>
                         </div>
                     </div>
