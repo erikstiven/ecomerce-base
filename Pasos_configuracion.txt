@@ -13,3 +13,11 @@ CREATE DATABASE ecommerce;
 php artisan migrate
 4.3 (Opcional) Seeders
 php artisan db:seed
+
+
+//iamegenes
+php artisan storage:link
+
+//REGENERAR 
+rmdir public\storage
+php artisan storage:link
