@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CompanySetting;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AppearanceSettingController extends Controller
 {
@@ -15,8 +16,26 @@ class AppearanceSettingController extends Controller
 
     public function edit()
     {
+        $fontOptions = $this->getTypographyFontOptions();
+        $settings = CompanySetting::query()->first();
+        $selectedFontChoice = null;
+
+        if ($settings) {
+            foreach ($fontOptions as $key => $option) {
+                if (
+                    ($settings->typography_font_family ?? null) === $option['family']
+                    && ($settings->typography_font_url ?? null) === $option['url']
+                ) {
+                    $selectedFontChoice = $key;
+                    break;
+                }
+            }
+        }
+
         return view('admin.settings.appearance', [
-            'settings' => CompanySetting::query()->first(),
+            'settings' => $settings,
+            'fontOptions' => $fontOptions,
+            'selectedFontChoice' => $selectedFontChoice,
         ]);
     }
 
@@ -31,6 +50,8 @@ class AppearanceSettingController extends Controller
             ]);
         }
 
+        $fontOptions = $this->getTypographyFontOptions();
+
         $validated = $request->validate([
             'nav_top_bg' => ['nullable', 'string', 'max:20', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
             'nav_top_text' => ['nullable', 'string', 'max:20', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
@@ -43,9 +64,19 @@ class AppearanceSettingController extends Controller
             'footer_to' => ['nullable', 'string', 'max:20', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
             'footer_text' => ['nullable', 'string', 'max:20', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
             'footer_muted' => ['nullable', 'string', 'max:20', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
+            'typography_font_choice' => ['nullable', 'string', Rule::in(array_keys($fontOptions))],
             'typography_font_family' => ['nullable', 'string', 'max:255'],
             'typography_font_url' => ['nullable', 'url', 'max:255'],
         ]);
+
+        if (!empty($validated['typography_font_choice'])) {
+            $choice = $validated['typography_font_choice'];
+
+            if (array_key_exists($choice, $fontOptions)) {
+                $validated['typography_font_family'] = $fontOptions[$choice]['family'];
+                $validated['typography_font_url'] = $fontOptions[$choice]['url'];
+            }
+        }
 
         $settings->fill($validated);
         $settings->save();
@@ -106,5 +137,61 @@ class AppearanceSettingController extends Controller
         );
 
         return 'https://fonts.googleapis.com/css2?' . implode('&', $familyParams) . '&display=swap';
+    }
+
+    private function getTypographyFontOptions(): array
+    {
+        return [
+            'plus-jakarta' => [
+                'label' => 'Plus Jakarta Sans',
+                'family' => 'Plus Jakarta Sans, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap',
+            ],
+            'inter' => [
+                'label' => 'Inter',
+                'family' => 'Inter, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap',
+            ],
+            'poppins' => [
+                'label' => 'Poppins',
+                'family' => 'Poppins, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap',
+            ],
+            'montserrat' => [
+                'label' => 'Montserrat',
+                'family' => 'Montserrat, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&display=swap',
+            ],
+            'nunito' => [
+                'label' => 'Nunito',
+                'family' => 'Nunito, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800&display=swap',
+            ],
+            'open-sans' => [
+                'label' => 'Open Sans',
+                'family' => 'Open Sans, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap',
+            ],
+            'roboto' => [
+                'label' => 'Roboto',
+                'family' => 'Roboto, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap',
+            ],
+            'lato' => [
+                'label' => 'Lato',
+                'family' => 'Lato, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap',
+            ],
+            'source-sans' => [
+                'label' => 'Source Sans 3',
+                'family' => 'Source Sans 3, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;500;600;700;800&display=swap',
+            ],
+            'raleway' => [
+                'label' => 'Raleway',
+                'family' => 'Raleway, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800&display=swap',
+            ],
+        ];
     }
 }
