@@ -40,13 +40,13 @@ class RoleSeeder extends Seeder
         ]);
 
         // Buscar usuario por email (más confiable que ID)
-        $user = User::where('email', 'erikquisnia@gmail.com')->first();
+        $user = User::where('email', 'admin@codecima.com')->first();
 
         if ($user) {
             $user->assignRole('admin');
-            $this->command->info('✅ Usuario admin encontrado y rol asignado correctamente.');
+            $this->command->info('Usuario admin encontrado y rol asignado correctamente.');
         } else {
-            $this->command->warn('⚠️ No se encontró el usuario con email erikquisnia@gmail.com.');
+            $this->command->warn('No se encontró el usuario con email admin@codecima.com.');
         }
     }
 }

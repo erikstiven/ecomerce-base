@@ -19,6 +19,9 @@ class FaqSeeder extends Seeder
         ];
 
         $settings = CompanySetting::query()->firstOrNew();
+        if (empty($settings->name)) {
+            $settings->name = 'Mi tienda';
+        }
 
         foreach ($defaults as $key => $value) {
             $current = $settings->{$key};

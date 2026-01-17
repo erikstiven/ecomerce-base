@@ -102,17 +102,17 @@
                 <div class="mt-3 grid gap-6 md:grid-cols-2">
                     <div>
                         <x-label class="mt-2">Fuente principal</x-label>
-                        <x-input class="w-full" name="typography_font_family"
-                            placeholder="Ej: 'Figtree', sans-serif"
-                            value="{{ old('typography_font_family', $settings?->typography_font_family) }}" />
-                        <p class="mt-1 text-xs text-slate-500">Define el stack de fuentes global.</p>
-                    </div>
-                    <div>
-                        <x-label class="mt-2">URL de la fuente (opcional)</x-label>
-                        <x-input class="w-full" name="typography_font_url"
-                            placeholder="https://fonts.googleapis.com/css2?family=..."
-                            value="{{ old('typography_font_url', $settings?->typography_font_url) }}" />
-                        <p class="mt-1 text-xs text-slate-500">Se incluye como &lt;link&gt; en el frontend.</p>
+                        <select name="typography_font_choice"
+                            class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <option value="">Selecciona una fuente</option>
+                            @foreach ($fontOptions as $key => $option)
+                                <option value="{{ $key }}"
+                                    @selected(old('typography_font_choice', $selectedFontChoice) === $key)>
+                                    {{ $option['label'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <p class="mt-1 text-xs text-slate-500">Estas fuentes ya están listas para usarse.</p>
                     </div>
                 </div>
             </div>

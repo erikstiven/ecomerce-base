@@ -29,14 +29,14 @@ class DatabaseSeeder extends Seeder
 
         //crear un usuario administrador si no existe
         \App\Models\User::query()->firstOrCreate(
-            ['email' => 'erikquisnia@gmail.com'],
+            ['email' => 'admin@codecima.com'],
             [
-                'name' => 'Erik Stiven',
-                'last_name' => 'Quisnia Tierra',
+                'name' => 'Codecima',
+                'last_name' => 'Ecuador',
                 'document_type' => 1, // Assuming 1 is a valid document type
                 'document_number' => '0705871689',
                 'phone' => '0979018689',
-                'password' => bcrypt('Nasa4036@'), // Password is hashed
+                'password' => bcrypt('codecima2026'), // Password is hashed
             ]
         );
 
@@ -48,6 +48,7 @@ class DatabaseSeeder extends Seeder
                 PermissionSeeder::class,
                 RoleSeeder::class,
                 AboutUsSeeder::class,
+                AppearanceSeeder::class,
                 ServicesSeeder::class,
                 LocationSeeder::class,
                 FaqSeeder::class,
