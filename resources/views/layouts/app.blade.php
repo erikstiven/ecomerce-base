@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'HMBSport') }}</title>
-    <link rel="icon" type="image/svg+xml" href="{{ asset('hmbsports-new.svg') }}?v={{ time() }}">
+    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}?v={{ time() }}">
 
 
 
