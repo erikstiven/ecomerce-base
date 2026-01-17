@@ -5,6 +5,7 @@ namespace App\Livewire\Forms;
 use App\Enums\TypeOfDocuments;
 use App\Models\Address;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
@@ -28,11 +29,14 @@ class CreateAddressForm extends Form
 
     public function rules()
     {
+        $provinces = $this->provinceOptions();
+        $cities = $this->cityOptions($this->province);
+
         return [
             'type' => 'required|in:1,2',
             'description' => 'required|string',
-            'province' => 'required|string',
-            'city' => 'required|string',
+            'province' => ['required', 'string', Rule::in($provinces)],
+            'city' => ['required', 'string', Rule::in($cities)],
             'reference' => 'required|string',
             'receiver' => 'required|in:1,2',
             'receiver_info.name' => 'required|string',
@@ -63,6 +67,14 @@ class CreateAddressForm extends Form
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'province.in' => 'Selecciona una provincia válida de Ecuador.',
+            'city.in' => 'Selecciona una ciudad válida para la provincia elegida.',
+        ];
+    }
+
     //save
     public function save()
     {
@@ -76,8 +88,8 @@ class CreateAddressForm extends Form
             'user_id' => \Illuminate\Support\Facades\Auth::user()->id,
             'type' => $this->type,
             'description' => $this->description,
-            'province' => $this->province,
-            'city' => $this->city,
+            'province' => $this->normalizeText($this->province),
+            'city' => $this->normalizeText($this->city),
             'reference' => $this->reference,
             'receiver' => $this->receiver,
             'receiver_info' => $this->receiver_info,
@@ -94,5 +106,29 @@ class CreateAddressForm extends Form
             'document_number' => \Illuminate\Support\Facades\Auth::user()->document_number,
             'phone' => \Illuminate\Support\Facades\Auth::user()->phone,
         ];
+    }
+
+    private function provinceOptions(): array
+    {
+        return array_keys(config('ecuador.provinces', []));
+    }
+
+    private function cityOptions(?string $province): array
+    {
+        if (!$province) {
+            return [];
+        }
+
+        $provinceData = config('ecuador.provinces', [])[$province] ?? null;
+        if (!$provinceData) {
+            return [];
+        }
+
+        return $provinceData['cities'] ?? [];
+    }
+
+    private function normalizeText(?string $value): string
+    {
+        return mb_strtolower(trim((string) $value));
     }
 }

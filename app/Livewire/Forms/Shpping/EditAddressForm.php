@@ -4,6 +4,7 @@ namespace App\Livewire\Forms\Shpping;
 
 use App\Enums\TypeOfDocuments;
 use App\Models\Address;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
@@ -26,11 +27,14 @@ class EditAddressForm extends Form
 
     public function rules()
     {
+        $provinces = $this->provinceOptions();
+        $cities = $this->cityOptions($this->province);
+
         return [
             'type' => 'required|in:1,2',
             'description' => 'required|string',
-            'province' => 'required|string',
-            'city' => 'required|string',
+            'province' => ['required', 'string', Rule::in($provinces)],
+            'city' => ['required', 'string', Rule::in($cities)],
             'reference' => 'required|string',
             'receiver' => 'required|in:1,2',
             'receiver_info.name' => 'required|string',
@@ -61,14 +65,22 @@ class EditAddressForm extends Form
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'province.in' => 'Selecciona una provincia válida de Ecuador.',
+            'city.in' => 'Selecciona una ciudad válida para la provincia elegida.',
+        ];
+    }
+
     //metodo edit
     public function edit($address)
     {
         $this->id = $address->id;
         $this->type = $address->type;
         $this->description = $address->description;
-        $this->province = $address->province;
-        $this->city = $address->city;
+        $this->province = $this->normalizeText($address->province);
+        $this->city = $this->normalizeText($address->city);
         $this->reference = $address->reference;
         $this->receiver = $address->receiver;
         $this->receiver_info = $address->receiver_info;
@@ -84,8 +96,8 @@ class EditAddressForm extends Form
         $address->update([
             'type' => $this->type,
             'description' => $this->description,
-            'province' => $this->province,
-            'city' => $this->city,
+            'province' => $this->normalizeText($this->province),
+            'city' => $this->normalizeText($this->city),
             'reference' => $this->reference,
             'receiver' => $this->receiver,
             'receiver_info' => $this->receiver_info,
@@ -94,5 +106,29 @@ class EditAddressForm extends Form
 
         // Reset the form
         $this->reset();
+    }
+
+    private function provinceOptions(): array
+    {
+        return array_keys(config('ecuador.provinces', []));
+    }
+
+    private function cityOptions(?string $province): array
+    {
+        if (!$province) {
+            return [];
+        }
+
+        $provinceData = config('ecuador.provinces', [])[$province] ?? null;
+        if (!$provinceData) {
+            return [];
+        }
+
+        return $provinceData['cities'] ?? [];
+    }
+
+    private function normalizeText(?string $value): string
+    {
+        return mb_strtolower(trim((string) $value));
     }
 }

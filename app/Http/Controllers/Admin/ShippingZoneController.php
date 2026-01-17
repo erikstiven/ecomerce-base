@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ShippingZone;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ShippingZoneController extends Controller
 {
@@ -74,10 +75,17 @@ class ShippingZoneController extends Controller
 
     private function validatePayload(Request $request): array
     {
+        $provinces = array_keys(config('ecuador.provinces', []));
+        $province = $request->input('province');
+        $cities = [];
+        if ($province && isset(config('ecuador.provinces', [])[$province])) {
+            $cities = config('ecuador.provinces', [])[$province]['cities'] ?? [];
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'province' => ['nullable', 'string', 'max:255'],
-            'city' => ['nullable', 'string', 'max:255'],
+            'province' => ['nullable', 'string', 'max:255', Rule::in($provinces)],
+            'city' => ['nullable', 'string', 'max:255', Rule::in($cities)],
             'price' => ['required', 'numeric', 'min:0', 'max:99999.99'],
             'is_active' => ['nullable'],
             'is_default' => ['nullable'],
@@ -85,6 +93,8 @@ class ShippingZoneController extends Controller
             'name.required' => 'Ingresa un nombre para la tarifa.',
             'price.required' => 'Ingresa el costo de envío.',
             'price.numeric' => 'El costo debe ser numérico.',
+            'province.in' => 'Selecciona una provincia válida de Ecuador.',
+            'city.in' => 'Selecciona una ciudad válida para la provincia elegida.',
         ], [
             'name' => 'nombre',
             'province' => 'provincia',

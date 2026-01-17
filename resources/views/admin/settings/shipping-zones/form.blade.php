@@ -29,7 +29,23 @@
 
             <x-validation-errors class="mb-4" />
 
-            <div class="grid gap-6 md:grid-cols-2">
+            @php
+                $provinceOptions = config('ecuador.provinces', []);
+                $selectedProvince = old('province', $zone->province);
+                $cityOptions = $provinceOptions[$selectedProvince]['cities'] ?? [];
+            @endphp
+
+            <div class="grid gap-6 md:grid-cols-2" x-data="{
+                provinces: @js($provinceOptions),
+                selectedProvince: '{{ $selectedProvince }}',
+                selectedCity: '{{ old('city', $zone->city) }}',
+                get cities() {
+                    if (!this.selectedProvince || !this.provinces[this.selectedProvince]) {
+                        return [];
+                    }
+                    return this.provinces[this.selectedProvince].cities || [];
+                }
+            }" x-effect="selectedCity = cities.includes(selectedCity) ? selectedCity : ''">
                 <div class="md:col-span-2">
                     <x-label class="mt-2">Nombre <span class="text-red-500">*</span></x-label>
                     <x-input class="w-full" name="name" value="{{ old('name', $zone->name) }}"
@@ -39,15 +55,25 @@
 
                 <div>
                     <x-label class="mt-2">Provincia</x-label>
-                    <x-input class="w-full" name="province" value="{{ old('province', $zone->province) }}"
-                        placeholder="Ej: Pichincha" />
+                    <select name="province" x-model="selectedProvince"
+                        class="mt-1 w-full rounded border-slate-300">
+                        <option value="">Todas las provincias</option>
+                        @foreach ($provinceOptions as $key => $province)
+                            <option value="{{ $key }}">{{ $province['label'] }}</option>
+                        @endforeach
+                    </select>
                     <p class="mt-1 text-xs text-slate-500">Déjalo vacío si aplica a todas las provincias.</p>
                 </div>
 
                 <div>
                     <x-label class="mt-2">Ciudad</x-label>
-                    <x-input class="w-full" name="city" value="{{ old('city', $zone->city) }}"
-                        placeholder="Ej: Quito" />
+                    <select name="city" x-model="selectedCity"
+                        class="mt-1 w-full rounded border-slate-300">
+                        <option value="">Todas las ciudades</option>
+                        <template x-for="city in cities" :key="city">
+                            <option :value="city" x-text="city.replace(/\b\w/g, c => c.toUpperCase())"></option>
+                        </template>
+                    </select>
                     <p class="mt-1 text-xs text-slate-500">Déjalo vacío si aplica a toda la provincia.</p>
                 </div>
 

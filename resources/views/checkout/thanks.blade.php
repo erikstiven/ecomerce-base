@@ -46,7 +46,7 @@
                 @if (is_array($order->address))
                     <hr class="my-4">
                     <h3 class="text-lg font-semibold mb-2">Dirección de envío</h3>
-                    <p class="text-sm text-gray-600">{{ $order->address['province'] ?? '' }}, {{ $order->address['city'] ?? '' }}</p>
+                    <p class="text-sm text-gray-600">{{ ucwords($order->address['province'] ?? '') }}, {{ ucwords($order->address['city'] ?? '') }}</p>
                     <p class="text-sm text-gray-600">{{ $order->address['description'] ?? '' }}</p>
                     @if (isset($order->address['receiver_info']) && is_array($order->address['receiver_info']))
                         <p class="text-sm text-gray-600">Recibe: {{ $order->address['receiver_info']['name'] ?? '' }} {{ $order->address['receiver_info']['last_name'] ?? '' }}</p>

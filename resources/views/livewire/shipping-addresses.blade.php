@@ -9,6 +9,11 @@
 
                 <x-validation-errors class="mb-6" />
 
+                @php
+                    $createProvince = $createAddress->province ?? '';
+                    $createCities = $citiesByProvince[$createProvince] ?? [];
+                @endphp
+
                 <div class="grid grid-cols-4 gap-4">
                     {{-- Tipo de dirección --}}
                     <div class="col-span-1">
@@ -29,11 +34,23 @@
 
                     {{-- Provincia --}}
                     <div class="col-span-2">
-                        <x-input class="w-full" wire:model.live="createAddress.province" placeholder="Provincia" />
+                        <x-select wire:model.live="createAddress.province"
+                            class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="" disabled>Provincia</option>
+                            @foreach ($provinces as $key => $province)
+                                <option value="{{ $key }}">{{ $province['label'] }}</option>
+                            @endforeach
+                        </x-select>
                     </div>
                     {{-- Ciudad --}}
                     <div class="col-span-2">
-                        <x-input class="w-full" wire:model.live="createAddress.city" placeholder="Ciudad" />
+                        <x-select wire:model.live="createAddress.city"
+                            class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="" disabled>Ciudad</option>
+                            @foreach ($createCities as $city)
+                                <option value="{{ $city }}">{{ ucwords($city) }}</option>
+                            @endforeach
+                        </x-select>
                     </div>
 
 
@@ -143,6 +160,11 @@
                     <p>
                         <x-validation-errors class="mb-6" />
 
+                    @php
+                        $editProvince = $editAddress->province ?? '';
+                        $editCities = $citiesByProvince[$editProvince] ?? [];
+                    @endphp
+
                     <div class="grid grid-cols-4 gap-4">
                         {{-- Tipo de dirección --}}
                         <div class="col-span-1">
@@ -163,11 +185,23 @@
 
                         {{-- Provincia --}}
                         <div class="col-span-2">
-                            <x-input class="w-full" wire:model.live="editAddress.province" placeholder="Provincia" />
+                            <x-select wire:model.live="editAddress.province"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="" disabled>Provincia</option>
+                                @foreach ($provinces as $key => $province)
+                                    <option value="{{ $key }}">{{ $province['label'] }}</option>
+                                @endforeach
+                            </x-select>
                         </div>
                         {{-- Ciudad --}}
                         <div class="col-span-2">
-                            <x-input class="w-full" wire:model.live="editAddress.city" placeholder="Ciudad" />
+                            <x-select wire:model.live="editAddress.city"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="" disabled>Ciudad</option>
+                                @foreach ($editCities as $city)
+                                    <option value="{{ $city }}">{{ ucwords($city) }}</option>
+                                @endforeach
+                            </x-select>
                         </div>
 
 
@@ -296,7 +330,7 @@
                                             </p>
 
                                             <p class="text-gray-800 font-semibold">
-                                                {{ $address->province }}, {{ $address->city }}
+                                                {{ ucwords($address->province) }}, {{ ucwords($address->city) }}
 
                                             </p>
                                             <p class="text-gray-600 font-semibold">

@@ -55,6 +55,16 @@ class ShippingAddresses extends Component
         
     }
 
+    public function updatedCreateAddressProvince()
+    {
+        $this->createAddress->city = '';
+    }
+
+    public function updatedEditAddressProvince()
+    {
+        $this->editAddress->city = '';
+    }
+
     //delete address
     public function deleteAddress($id)
     {
@@ -84,7 +94,14 @@ class ShippingAddresses extends Component
 
     public function render()
     {
+        $provinces = config('ecuador.provinces', []);
+        $citiesByProvince = collect($provinces)
+            ->mapWithKeys(fn ($data, $key) => [$key => $data['cities'] ?? []])
+            ->toArray();
 
-        return view('livewire.shipping-addresses');
+        return view('livewire.shipping-addresses', [
+            'provinces' => $provinces,
+            'citiesByProvince' => $citiesByProvince,
+        ]);
     }
 }

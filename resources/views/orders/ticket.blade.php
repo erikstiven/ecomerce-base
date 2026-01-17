@@ -92,7 +92,7 @@
             </div>
 
             <div>
-                Direccion: {{ $order->address['description'] }} - {{ $order->address['city'] }}
+                Direccion: {{ $order->address['description'] }} - {{ ucwords($order->address['city'] ?? '') }}
                 ({{ $order->address['reference'] }})
             </div>
 

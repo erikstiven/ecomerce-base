@@ -43,8 +43,8 @@
                     @forelse ($zones as $zone)
                         <tr>
                             <td class="px-4 py-3 font-medium text-slate-700">{{ $zone->name }}</td>
-                            <td class="px-4 py-3">{{ $zone->province ?? 'Todas' }}</td>
-                            <td class="px-4 py-3">{{ $zone->city ?? 'Todas' }}</td>
+                            <td class="px-4 py-3">{{ $zone->province ? ucwords($zone->province) : 'Todas' }}</td>
+                            <td class="px-4 py-3">{{ $zone->city ? ucwords($zone->city) : 'Todas' }}</td>
                             <td class="px-4 py-3">${{ number_format((float) $zone->price, 2) }}</td>
                             <td class="px-4 py-3">{{ $zone->is_active ? 'Activa' : 'Inactiva' }}</td>
                             <td class="px-4 py-3">{{ $zone->is_default ? 'Sí' : 'No' }}</td>
