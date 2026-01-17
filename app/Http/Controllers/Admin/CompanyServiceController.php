@@ -36,6 +36,9 @@ class CompanyServiceController extends Controller
         $validated['services_show_cta'] = $request->boolean('services_show_cta');
 
         $settings = \App\Models\CompanySetting::query()->firstOrNew();
+        if (empty($settings->name)) {
+            $settings->name = 'Mi tienda';
+        }
         $settings->fill($validated);
         $settings->save();
 
