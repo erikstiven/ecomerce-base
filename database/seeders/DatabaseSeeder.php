@@ -52,6 +52,7 @@ class DatabaseSeeder extends Seeder
                 ServicesSeeder::class,
                 LocationSeeder::class,
                 FaqSeeder::class,
+                PayphoneSettingSeeder::class,
                 //FamilySeeder::class,                    // Add other seeders here if needed
                 //OptionSeeder::class,
             ]
