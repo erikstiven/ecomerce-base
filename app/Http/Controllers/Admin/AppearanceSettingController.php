@@ -192,6 +192,31 @@ class AppearanceSettingController extends Controller
                 'family' => 'Raleway, sans-serif',
                 'url' => 'https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600;700;800&display=swap',
             ],
+            'work-sans' => [
+                'label' => 'Work Sans',
+                'family' => 'Work Sans, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400;500;600;700;800&display=swap',
+            ],
+            'mukta' => [
+                'label' => 'Mukta',
+                'family' => 'Mukta, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap',
+            ],
+            'manrope' => [
+                'label' => 'Manrope',
+                'family' => 'Manrope, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap',
+            ],
+            'urbanist' => [
+                'label' => 'Urbanist',
+                'family' => 'Urbanist, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Urbanist:wght@200;300;400;500;600;700;800&display=swap',
+            ],
+            'rubik' => [
+                'label' => 'Rubik',
+                'family' => 'Rubik, sans-serif',
+                'url' => 'https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap',
+            ],
         ];
     }
 }
