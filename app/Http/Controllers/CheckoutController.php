@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use App\Models\Address;
 use App\Models\Variant;
 use App\Models\CompanySetting;
+use App\Models\ShippingZone;
 use Illuminate\Support\Facades\Log;
 
 
@@ -66,7 +67,7 @@ class CheckoutController extends Controller
 
         $payphone = $this->resolvePayphoneSettings();
         $bankDeposit = $this->resolveBankDepositSettings();
-        $shipping = $this->resolveShippingCost();
+        $shipping = $this->resolveShippingRate();
 
         // Obtener contenido del carrito y totales
         $cart     = Cart::instance('shopping');
@@ -105,7 +106,7 @@ class CheckoutController extends Controller
 
             // Se calcula el subtotal limpiando cualquier formato
             $subtotal = (float) preg_replace('/[^\d\.]/', '', (string) $cart->subtotal(2, '.', ''));
-            $shipping = $this->resolveShippingCost();
+            $shipping = $this->resolveShippingRate();
             $total    = round($subtotal + $shipping, 2);
 
             $order = new Order();
@@ -189,7 +190,7 @@ class CheckoutController extends Controller
         $cart     = Cart::instance('shopping');
         $content  = $cart->content();
         $subtotal = (float) preg_replace('/[^\d\.]/', '', (string) $cart->subtotal(2, '.', ''));
-        $shipping = $this->resolveShippingCost();
+        $shipping = $this->resolveShippingRate();
         $total    = round($subtotal + $shipping, 2);
 
         $ppParams = [
@@ -417,11 +418,41 @@ class CheckoutController extends Controller
         ];
     }
 
-    private function resolveShippingCost(): float
+    private function resolveShippingRate(): float
     {
-        $settings = CompanySetting::query()->first();
-        $shipping = $settings?->shipping_cost ?? 5.00;
+        $address = Address::where('user_id', Auth::id())
+            ->where('default', true)
+            ->first();
 
-        return (float) max(0, $shipping);
+        if (!$address) {
+            return 0.00;
+        }
+
+        $province = mb_strtolower(trim((string) $address->province));
+        $city = mb_strtolower(trim((string) $address->city));
+
+        $query = ShippingZone::query()
+            ->where('is_active', true);
+
+        $zone = $query->where('province', $province)
+            ->where('city', $city)
+            ->first();
+
+        if (!$zone) {
+            $zone = ShippingZone::query()
+                ->where('is_active', true)
+                ->where('province', $province)
+                ->whereNull('city')
+                ->first();
+        }
+
+        if (!$zone) {
+            $zone = ShippingZone::query()
+                ->where('is_active', true)
+                ->where('is_default', true)
+                ->first();
+        }
+
+        return (float) ($zone?->price ?? 0.00);
     }
 }
