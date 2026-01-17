@@ -66,12 +66,12 @@ class CheckoutController extends Controller
 
         $payphone = $this->resolvePayphoneSettings();
         $bankDeposit = $this->resolveBankDepositSettings();
+        $shipping = $this->resolveShippingCost();
 
         // Obtener contenido del carrito y totales
         $cart     = Cart::instance('shopping');
         $content  = $cart->content();
         $subtotal = (float) preg_replace('/[^\d\.]/', '', (string) $cart->subtotal(2, '.', ''));
-        $shipping = 5.00;
         $total    = round($subtotal + $shipping, 2);
 
         return view('checkout.index', [
@@ -105,7 +105,7 @@ class CheckoutController extends Controller
 
             // Se calcula el subtotal limpiando cualquier formato
             $subtotal = (float) preg_replace('/[^\d\.]/', '', (string) $cart->subtotal(2, '.', ''));
-            $shipping = 5.00;
+            $shipping = $this->resolveShippingCost();
             $total    = round($subtotal + $shipping, 2);
 
             $order = new Order();
@@ -189,7 +189,7 @@ class CheckoutController extends Controller
         $cart     = Cart::instance('shopping');
         $content  = $cart->content();
         $subtotal = (float) preg_replace('/[^\d\.]/', '', (string) $cart->subtotal(2, '.', ''));
-        $shipping = 5.00;
+        $shipping = $this->resolveShippingCost();
         $total    = round($subtotal + $shipping, 2);
 
         $ppParams = [
@@ -415,5 +415,13 @@ class CheckoutController extends Controller
             'whatsapp_message' => $settings?->bank_whatsapp_message
                 ?? 'Hola, adjunto el comprobante de mi pedido.',
         ];
+    }
+
+    private function resolveShippingCost(): float
+    {
+        $settings = CompanySetting::query()->first();
+        $shipping = $settings?->shipping_cost ?? 5.00;
+
+        return (float) max(0, $shipping);
     }
 }

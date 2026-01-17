@@ -19,6 +19,7 @@ class LocationSeeder extends Seeder
             'location_city' => 'codecima',
             'location_country' => 'codecima',
             'location_map_embed' => $defaultMapEmbed,
+            'shipping_cost' => 5.00,
         ];
 
         $settings = CompanySetting::query()->firstOrNew();

@@ -97,6 +97,12 @@
                         <x-input class="w-full" name="location_map_longitude"
                             value="{{ old('location_map_longitude', $settings?->location_map_longitude) }}" />
                     </div>
+                    <div>
+                        <x-label class="mt-2">Costo de envío</x-label>
+                        <x-input class="w-full" name="shipping_cost" type="number" step="0.01"
+                            value="{{ old('shipping_cost', $settings?->shipping_cost ?? 5) }}" />
+                        <p class="mt-1 text-xs text-slate-500">Se usa como costo fijo en el checkout (ejemplo: 5.00).</p>
+                    </div>
                 </div>
             </section>
 

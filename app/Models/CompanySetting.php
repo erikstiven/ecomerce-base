@@ -62,6 +62,7 @@ class CompanySetting extends Model
         'location_country',
         'location_map_latitude',
         'location_map_longitude',
+        'shipping_cost',
         'faq_title',
         'faq_content',
         'faq_show_section',

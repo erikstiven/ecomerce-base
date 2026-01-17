@@ -85,6 +85,7 @@ class CompanyProfileController extends Controller
             'location_phone_primary' => ['nullable', 'string', 'max:50'],
             'location_phone_secondary' => ['nullable', 'string', 'max:50'],
             'location_phone_sales' => ['nullable', 'string', 'max:50'],
+            'shipping_cost' => ['nullable', 'numeric', 'min:0', 'max:99999.99'],
         ]);
 
         $settings = CompanySetting::query()->firstOrNew();
