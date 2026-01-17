@@ -9,8 +9,14 @@ return new class extends Migration {
     {
         Schema::table('company_settings', function (Blueprint $table) {
             $table->text('footer_description')->nullable()->change();
-            $table->string('footer_phone')->nullable()->after('footer_email');
-            $table->string('footer_logo')->nullable()->after('footer_phone');
+
+            if (!Schema::hasColumn('company_settings', 'footer_phone')) {
+                $table->string('footer_phone')->nullable()->after('footer_email');
+            }
+
+            if (!Schema::hasColumn('company_settings', 'footer_logo')) {
+                $table->string('footer_logo')->nullable()->after('footer_phone');
+            }
         });
     }
 
@@ -18,7 +24,14 @@ return new class extends Migration {
     {
         Schema::table('company_settings', function (Blueprint $table) {
             $table->string('footer_description')->nullable()->change();
-            $table->dropColumn(['footer_phone', 'footer_logo']);
+
+            if (Schema::hasColumn('company_settings', 'footer_phone')) {
+                $table->dropColumn('footer_phone');
+            }
+
+            if (Schema::hasColumn('company_settings', 'footer_logo')) {
+                $table->dropColumn('footer_logo');
+            }
         });
     }
 };
