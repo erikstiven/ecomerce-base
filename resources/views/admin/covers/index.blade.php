@@ -62,9 +62,19 @@
                     </div>
 
                     <div>
-                        <a class="btn-gradient-blue" href="{{ route('admin.covers.edit', $cover) }}">
-                            Editar
-                        </a>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <a class="btn-gradient-blue" href="{{ route('admin.covers.edit', $cover) }}">
+                                Editar
+                            </a>
+                            <form action="{{ route('admin.covers.destroy', $cover) }}" method="POST"
+                                data-cover-delete-form>
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn-gradient-red" data-cover-delete-button>
+                                    Eliminar
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </li>
@@ -92,6 +102,31 @@
 
                     }
                 }
+            });
+
+            document.querySelectorAll('[data-cover-delete-form]').forEach((form) => {
+                const button = form.querySelector('[data-cover-delete-button]');
+
+                if (!button) {
+                    return;
+                }
+
+                button.addEventListener('click', () => {
+                    Swal.fire({
+                        title: "¿Estás seguro?",
+                        text: "Esta acción eliminará la portada de forma permanente.",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Sí, eliminar",
+                        cancelButtonText: "Cancelar"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
             });
         </script>
     @endpush

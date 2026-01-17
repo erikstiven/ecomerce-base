@@ -7,13 +7,65 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'HMBSport') }}</title>
-    <link rel="icon" type="image/svg+xml" href="{{ asset('hmbsports-new.svg') }}?v={{ time() }}">
+    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}?v={{ time() }}">
 
 
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    @php
+        $fontFamily = setting('typography_font_family', "Figtree, sans-serif");
+        $fontUrl = setting('typography_font_url', '');
+        $navTopBg = setting('nav_top_bg', '#1d4ed8');
+        $navTopText = setting('nav_top_text', '#f8fafc');
+        $navTopHover = setting('nav_top_hover', '#ffffff');
+        $navHeaderFrom = setting('nav_header_from', '#3b0764');
+        $navHeaderVia = setting('nav_header_via', '#1e3a8a');
+        $navHeaderTo = setting('nav_header_to', '#7e22ce');
+        $footerFrom = setting('footer_from', '#3b0764');
+        $footerVia = setting('footer_via', '#1e3a8a');
+        $footerTo = setting('footer_to', '#7e22ce');
+        $footerText = setting('footer_text', '#f8fafc');
+        $footerMuted = setting('footer_muted', '#cbd5f5');
+    @endphp
+
+    @if ($fontUrl)
+        <link rel="stylesheet" href="{{ $fontUrl }}">
+    @endif
+
+    <style>
+        :root {
+            --nav-top-bg: {{ $navTopBg }};
+            --nav-top-text: {{ $navTopText }};
+            --nav-top-hover: {{ $navTopHover }};
+            --nav-header-from: {{ $navHeaderFrom }};
+            --nav-header-via: {{ $navHeaderVia }};
+            --nav-header-to: {{ $navHeaderTo }};
+            --footer-from: {{ $footerFrom }};
+            --footer-via: {{ $footerVia }};
+            --footer-to: {{ $footerTo }};
+            --footer-text: {{ $footerText }};
+            --footer-muted: {{ $footerMuted }};
+            --body-font-family: {{ $fontFamily }};
+        }
+
+        .nav-top-link {
+            color: var(--nav-top-text);
+        }
+
+        .nav-top-link:hover {
+            color: var(--nav-top-hover);
+        }
+
+        .footer-text {
+            color: var(--footer-text);
+        }
+
+        .footer-muted {
+            color: var(--footer-muted);
+        }
+    </style>
 
     @stack('css')
 
@@ -32,7 +84,8 @@
     <script type="module" src="https://cdn.payphonetodoesposible.com/box/v1.1/payphone-payment-box.js"></script>
 </head>
 
-<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 flex flex-col min-h-screen">
+<body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 flex flex-col min-h-screen"
+    style="font-family: var(--body-font-family);">
     <x-banner />
 
     {{-- Navegación --}}

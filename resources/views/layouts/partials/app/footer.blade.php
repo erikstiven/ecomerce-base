@@ -20,7 +20,8 @@
     $legalCompanyName = setting('legal_company_name', 'Codecima');
 @endphp
 
-<footer class="bg-gradient-to-r from-[#3b0764] via-[#1e3a8a] to-[#7e22ce] text-white">
+<footer class="text-white"
+    style="background: linear-gradient(90deg, var(--footer-from), var(--footer-via), var(--footer-to)); color: var(--footer-text);">
     <div class="max-w-screen-xl mx-auto px-6 md:px-8 py-10 lg:py-12">
 
         <!-- ============== TOP ============== -->
@@ -32,14 +33,14 @@
                 <a href="/" class="inline-flex" aria-label="Ir al inicio">
                     <img src="{{ $footerLogo }}" alt="{{ $companyName }}" class="h-16 md:h-20 object-contain mx-auto" />
                 </a>
-                <p class="text-lg font-semibold text-white/95">{{ $companyName }}</p>
-                <p class="text-sm text-white/80">{{ $companyDescription }}</p>
+                <p class="text-lg font-semibold footer-text">{{ $companyName }}</p>
+                <p class="text-sm footer-muted">{{ $companyDescription }}</p>
             </div>
 
             <!-- CONTACTO ESENCIAL -->
             <div class="md:col-span-3">
-                <h2 class="mb-3 font-semibold uppercase tracking-wide text-white/90">Contacto</h2>
-                <ul class="space-y-2 text-white/90">
+                <h2 class="mb-3 font-semibold uppercase tracking-wide footer-text">Contacto</h2>
+                <ul class="space-y-2 footer-text">
                     @if ($footerEmail)
                         <li>
                             <a href="mailto:{{ $footerEmail }}"
@@ -61,7 +62,7 @@
             <!-- REDES SOCIALES -->
             @if ($hasSocialLinks)
                 <div class="md:col-span-2">
-                    <h2 class="mb-3 font-semibold uppercase tracking-wide text-white/90">Redes sociales</h2>
+                    <h2 class="mb-3 font-semibold uppercase tracking-wide footer-text">Redes sociales</h2>
                     <div class="flex justify-center md:justify-start gap-4">
                     @if ($facebook)
                         <a href="{{ $facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
@@ -104,8 +105,8 @@
 
             <!-- INFORMACIÓN / LEGAL -->
             <div class="md:col-span-3">
-                <h2 class="mb-3 font-semibold uppercase tracking-wide text-white/90">Información</h2>
-                <ul class="space-y-2 text-white/90">
+                <h2 class="mb-3 font-semibold uppercase tracking-wide footer-text">Información</h2>
+                <ul class="space-y-2 footer-text">
                     <li>
                         <a href="/terminos-y-condiciones"
                             class="hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60 rounded">
@@ -139,7 +140,7 @@
 
         <!-- ============== BOTTOM ============== -->
         <div class="flex flex-col items-center gap-2 text-center">
-            <p class="text-sm text-white/70">
+            <p class="text-sm footer-muted">
                 © {{ now()->year }} {{ $legalCompanyName }}. Todos los derechos reservados.
             </p>
         </div>

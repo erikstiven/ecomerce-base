@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\CoverController;
 use App\Http\Controllers\Admin\CompanyProfileController;
 use App\Http\Controllers\Admin\CompanyServiceController;
 use App\Http\Controllers\Admin\CompanySettingController;
+use App\Http\Controllers\Admin\AppearanceSettingController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DriverController;
@@ -29,6 +30,8 @@ Route::get('/estadisticas', [DashboardController::class, 'statistics'])
 Route::get('/options', [OptionController::class, 'index'])->name('options.index');
 Route::get('/settings/footer', [CompanySettingController::class, 'edit'])->name('settings.footer.edit');
 Route::put('/settings/footer', [CompanySettingController::class, 'update'])->name('settings.footer.update');
+Route::get('/settings/appearance', [AppearanceSettingController::class, 'edit'])->name('settings.appearance.edit');
+Route::put('/settings/appearance', [AppearanceSettingController::class, 'update'])->name('settings.appearance.update');
 Route::get('/settings/company', [CompanyProfileController::class, 'edit'])->name('settings.company.edit');
 Route::put('/settings/company', [CompanyProfileController::class, 'update'])->name('settings.company.update');
 Route::get('/settings/company/location', [CompanyProfileController::class, 'editLocation'])
