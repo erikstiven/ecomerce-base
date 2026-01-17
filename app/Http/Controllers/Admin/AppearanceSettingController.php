@@ -24,6 +24,13 @@ class AppearanceSettingController extends Controller
     {
         $settings = CompanySetting::query()->firstOrNew();
 
+        $fontUrl = $request->input('typography_font_url');
+        if (!empty($fontUrl)) {
+            $request->merge([
+                'typography_font_url' => $this->normalizeFontUrl($fontUrl),
+            ]);
+        }
+
         $validated = $request->validate([
             'nav_top_bg' => ['nullable', 'string', 'max:20', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
             'nav_top_text' => ['nullable', 'string', 'max:20', 'regex:/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/'],
@@ -39,10 +46,6 @@ class AppearanceSettingController extends Controller
             'typography_font_family' => ['nullable', 'string', 'max:255'],
             'typography_font_url' => ['nullable', 'url', 'max:255'],
         ]);
-
-        if (!empty($validated['typography_font_url'])) {
-            $validated['typography_font_url'] = $this->normalizeFontUrl($validated['typography_font_url']);
-        }
 
         $settings->fill($validated);
         $settings->save();
@@ -63,6 +66,10 @@ class AppearanceSettingController extends Controller
         $host = $parts['host'];
         $path = $parts['path'] ?? '';
 
+        if (str_contains($host, 'fonts.googleapis.com')) {
+            return $url;
+        }
+
         if (!str_contains($host, 'fonts.google.com')) {
             return $url;
         }
@@ -72,19 +79,32 @@ class AppearanceSettingController extends Controller
             $family = $query['selection.family'] ?? $query['family'] ?? null;
 
             if ($family) {
-                $family = str_replace(' ', '+', $family);
-
-                return "https://fonts.googleapis.com/css2?family={$family}&display=swap";
+                return $this->buildGoogleFontsCssUrl($family);
             }
         }
 
         if (str_starts_with($path, '/specimen/')) {
             $family = trim(str_replace('/specimen/', '', $path), '/');
-            $family = str_replace(' ', '+', $family);
 
-            return "https://fonts.googleapis.com/css2?family={$family}&display=swap";
+            return $this->buildGoogleFontsCssUrl($family);
         }
 
         return $url;
+    }
+
+    private function buildGoogleFontsCssUrl(string $family): string
+    {
+        $families = array_filter(array_map('trim', explode('|', $family)));
+
+        if (empty($families)) {
+            return 'https://fonts.googleapis.com/css2?display=swap';
+        }
+
+        $familyParams = array_map(
+            static fn(string $item) => 'family=' . str_replace(' ', '+', $item),
+            $families
+        );
+
+        return 'https://fonts.googleapis.com/css2?' . implode('&', $familyParams) . '&display=swap';
     }
 }
