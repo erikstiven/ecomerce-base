@@ -30,6 +30,7 @@
 
         <section>
             <h2 class="text-sm font-semibold text-slate-700">Sección en la landing</h2>
+            <p class="mt-2 text-xs text-slate-500">Los campos con <span class="font-semibold text-red-500">*</span> son obligatorios cuando el bloque está activo.</p>
             <form method="POST" action="{{ route('admin.settings.company.services.settings') }}" class="mt-4">
                 @csrf
                 @method('PUT')
@@ -38,33 +39,37 @@
 
                 <div class="grid gap-6 md:grid-cols-2">
                     <div class="md:col-span-2 flex items-center gap-2">
-                        <x-checkbox name="services_show_section" :checked="old('services_show_section', $settings?->services_show_section ?? true)" />
+                        <x-checkbox name="services_show_section" :checked="(bool) old('services_show_section', $settings?->services_show_section ?? true)" />
                         <x-label>Mostrar sección de servicios</x-label>
                     </div>
 
                     <div class="md:col-span-2">
-                        <x-label class="mt-2">Título de sección</x-label>
-                        <x-input class="w-full" name="services_title" value="{{ old('services_title', $settings?->services_title) }}" />
+                        <x-label class="mt-2">Título de sección <span class="text-red-500">*</span></x-label>
+                        <x-input class="w-full" name="services_title" value="{{ old('services_title', $settings?->services_title) }}"
+                            placeholder="Ej: Nuestros servicios" />
                     </div>
 
                     <div class="md:col-span-2">
-                        <x-label class="mt-2">Descripción introductoria</x-label>
-                        <x-textarea class="w-full" name="services_intro" rows="3">{{ old('services_intro', $settings?->services_intro) }}</x-textarea>
+                        <x-label class="mt-2">Descripción introductoria <span class="text-red-500">*</span></x-label>
+                        <x-textarea class="w-full" name="services_intro" rows="3"
+                            placeholder="Ej: Te acompañamos con soluciones a medida.">{{ old('services_intro', $settings?->services_intro) }}</x-textarea>
                     </div>
 
                     <div class="md:col-span-2 flex items-center gap-2">
-                        <x-checkbox name="services_show_cta" :checked="old('services_show_cta', $settings?->services_show_cta ?? true)" />
+                        <x-checkbox name="services_show_cta" :checked="(bool) old('services_show_cta', $settings?->services_show_cta ?? true)" />
                         <x-label>Mostrar llamado a la acción</x-label>
                     </div>
 
                     <div>
-                        <x-label class="mt-2">Texto del botón</x-label>
-                        <x-input class="w-full" name="services_cta_label" value="{{ old('services_cta_label', $settings?->services_cta_label) }}" />
+                        <x-label class="mt-2">Texto del botón <span class="text-red-500">*</span></x-label>
+                        <x-input class="w-full" name="services_cta_label" value="{{ old('services_cta_label', $settings?->services_cta_label) }}"
+                            placeholder="Ej: Solicitar asesoría" />
                     </div>
 
                     <div>
-                        <x-label class="mt-2">Enlace del botón</x-label>
-                        <x-input class="w-full" name="services_cta_url" value="{{ old('services_cta_url', $settings?->services_cta_url) }}" />
+                        <x-label class="mt-2">Enlace del botón <span class="text-red-500">*</span></x-label>
+                        <x-input class="w-full" name="services_cta_url" value="{{ old('services_cta_url', $settings?->services_cta_url) }}"
+                            placeholder="https://tutienda.com/contacto" />
                     </div>
                 </div>
 
