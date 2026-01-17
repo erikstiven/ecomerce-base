@@ -87,10 +87,18 @@ class CompanySetting extends Model
         'payphone_environment',
         'payphone_domain',
         'payphone_api_url',
+        'bank_deposit_enabled',
+        'bank_name',
+        'bank_account_type',
+        'bank_account_number',
+        'bank_transfer_instructions',
+        'bank_whatsapp',
+        'bank_whatsapp_message',
     ];
 
     protected $casts = [
         'payphone_enabled' => 'boolean',
         'payphone_token' => 'encrypted',
+        'bank_deposit_enabled' => 'boolean',
     ];
 }

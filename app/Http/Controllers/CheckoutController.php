@@ -65,6 +65,7 @@ class CheckoutController extends Controller
         }
 
         $payphone = $this->resolvePayphoneSettings();
+        $bankDeposit = $this->resolveBankDepositSettings();
 
         // Obtener contenido del carrito y totales
         $cart     = Cart::instance('shopping');
@@ -79,6 +80,7 @@ class CheckoutController extends Controller
             'delivery' => $shipping,
             'total'    => $total,
             'payphone' => $payphone,
+            'bankDeposit' => $bankDeposit,
         ]);
     }
 
@@ -210,6 +212,7 @@ class CheckoutController extends Controller
             'delivery' => $shipping,
             'total'    => $total,
             'payphone' => $payphone,
+            'bankDeposit' => $this->resolveBankDepositSettings(),
         ]);
     }
 
@@ -395,6 +398,22 @@ class CheckoutController extends Controller
             'environment' => $settings?->payphone_environment ?? 'sandbox',
             'domain' => $settings?->payphone_domain,
             'api_url' => $settings?->payphone_api_url ?? config('services.payphone.api_url'),
+        ];
+    }
+
+    private function resolveBankDepositSettings(): array
+    {
+        $settings = CompanySetting::query()->first();
+
+        return [
+            'enabled' => (bool) ($settings?->bank_deposit_enabled ?? true),
+            'bank_name' => $settings?->bank_name ?? 'Banco Pichincha',
+            'account_type' => $settings?->bank_account_type ?? 'Cuenta de ahorro transaccional',
+            'account_number' => $settings?->bank_account_number ?? '2208765620',
+            'instructions' => $settings?->bank_transfer_instructions,
+            'whatsapp' => $settings?->bank_whatsapp ?? '+593979018689',
+            'whatsapp_message' => $settings?->bank_whatsapp_message
+                ?? 'Hola, adjunto el comprobante de mi pedido.',
         ];
     }
 }

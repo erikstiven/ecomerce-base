@@ -31,9 +31,17 @@ class PayphoneSettingController extends Controller
             'payphone_environment' => ['nullable', 'string', 'in:sandbox,production'],
             'payphone_domain' => ['nullable', 'string', 'max:255'],
             'payphone_api_url' => ['nullable', 'url', 'max:255'],
+            'bank_deposit_enabled' => ['nullable'],
+            'bank_name' => ['nullable', 'string', 'max:255', 'required_if:bank_deposit_enabled,1'],
+            'bank_account_type' => ['nullable', 'string', 'max:255', 'required_if:bank_deposit_enabled,1'],
+            'bank_account_number' => ['nullable', 'string', 'max:255', 'required_if:bank_deposit_enabled,1'],
+            'bank_transfer_instructions' => ['nullable', 'string', 'max:2000'],
+            'bank_whatsapp' => ['nullable', 'string', 'max:50'],
+            'bank_whatsapp_message' => ['nullable', 'string', 'max:255'],
         ]);
 
         $validated['payphone_enabled'] = $request->boolean('payphone_enabled');
+        $validated['bank_deposit_enabled'] = $request->boolean('bank_deposit_enabled');
 
         if (blank($validated['payphone_api_url'] ?? null)) {
             unset($validated['payphone_api_url']);

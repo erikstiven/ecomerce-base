@@ -14,6 +14,7 @@
 
     @php
         $payphoneEnabled = $payphone['enabled'] ?? false;
+        $bankDepositEnabled = $bankDeposit['enabled'] ?? true;
     @endphp
 
     {{-- Abre el modal automáticamente cuando $pp exista --}}
@@ -44,32 +45,49 @@
                                 </li>
                             @endif
 
-                            <li>
-                                <label class="p-4 flex items-center">
-                                    <input type="radio" value="2" x-model="pago" class="cursor-pointer">
-                                    <span class="ml-2">Depósito bancario</span>
-                                </label>
+                            @if ($bankDepositEnabled)
+                                <li>
+                                    <label class="p-4 flex items-center">
+                                        <input type="radio" value="2" x-model="pago" class="cursor-pointer">
+                                        <span class="ml-2">Depósito bancario</span>
+                                    </label>
 
-                                <div x-show="pago == 2" x-cloak
-                                    class="p-4 bg-gray-100 text-sm border-t border-gray-400">
-                                    <div class="max-w-md mx-auto space-y-1">
-                                        <p><strong>1. Pago por depósito o transferencia bancaria:</strong></p>
-                                        <p>- Banco Pichincha</p>
-                                        <p>- Cuenta de ahorro transaccional</p>
-                                        <p>- Número de cuenta: 2208765620</p>
-                                        <p></p>
-                                        <p><strong>2. Enviar comprobante de pago:</strong></p>
-                                            <input type="button" value="Enviar por WhatsApp">
-                                            
-                                        <a href="https://wa.me/593979018689?text=Hola%2C%20me%20interesan%20los%20servicios%20y%20productos%20que%20muestran%20en%20su%20p%C3%A1gina%20web." class="text-blue-600 underline"
-                                                target="_blank">
-                                                +593 97 901 86 89
-                                        </a>
-                                        </p>
+                                    <div x-show="pago == 2" x-cloak
+                                        class="p-4 bg-gray-100 text-sm border-t border-gray-400">
+                                        <div class="max-w-md mx-auto space-y-1">
+                                            <p><strong>1. Pago por depósito o transferencia bancaria:</strong></p>
+                                            <p>- Banco {{ $bankDeposit['bank_name'] ?? 'Banco Pichincha' }}</p>
+                                            <p>- {{ $bankDeposit['account_type'] ?? 'Cuenta de ahorro transaccional' }}</p>
+                                            <p>- Número de cuenta: {{ $bankDeposit['account_number'] ?? '2208765620' }}</p>
+                                            @if (!empty($bankDeposit['instructions']))
+                                                <p class="pt-2 text-slate-600">{{ $bankDeposit['instructions'] }}</p>
+                                            @endif
+                                            <p class="pt-2"><strong>2. Enviar comprobante de pago:</strong></p>
+                                            @php
+                                                $whatsapp = $bankDeposit['whatsapp'] ?? '';
+                                                $whatsappMessage = $bankDeposit['whatsapp_message'] ?? '';
+                                                $whatsappClean = preg_replace('/[^0-9]/', '', (string) $whatsapp);
+                                                $whatsappUrl = $whatsappClean
+                                                    ? 'https://wa.me/' . $whatsappClean . '?text=' . urlencode($whatsappMessage)
+                                                    : null;
+                                            @endphp
+                                            @if ($whatsappUrl)
+                                                <a href="{{ $whatsappUrl }}" class="text-blue-600 underline" target="_blank">
+                                                    {{ $whatsapp }}
+                                                </a>
+                                            @else
+                                                <p class="text-slate-500">Configura un número de WhatsApp para recibir comprobantes.</p>
+                                            @endif
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
+                                </li>
+                            @endif
                         </ul>
+                        @if (! $payphoneEnabled && ! $bankDepositEnabled)
+                            <div class="p-4 bg-gray-100 text-sm text-slate-600">
+                                No hay métodos de pago disponibles. Configura PayPhone o depósito bancario desde el panel.
+                            </div>
+                        @endif
                     </div>
 
                 </div>
