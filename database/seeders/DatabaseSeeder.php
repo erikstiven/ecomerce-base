@@ -48,6 +48,7 @@ class DatabaseSeeder extends Seeder
                 PermissionSeeder::class,
                 RoleSeeder::class,
                 AboutUsSeeder::class,
+                AppearanceSeeder::class,
                 ServicesSeeder::class,
                 LocationSeeder::class,
                 FaqSeeder::class,

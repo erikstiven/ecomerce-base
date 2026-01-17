@@ -40,11 +40,51 @@ class AppearanceSettingController extends Controller
             'typography_font_url' => ['nullable', 'url', 'max:255'],
         ]);
 
+        if (!empty($validated['typography_font_url'])) {
+            $validated['typography_font_url'] = $this->normalizeFontUrl($validated['typography_font_url']);
+        }
+
         $settings->fill($validated);
         $settings->save();
 
         return redirect()
             ->route('admin.settings.appearance.edit')
             ->with('status', 'Apariencia actualizada correctamente.');
+    }
+
+    private function normalizeFontUrl(string $url): string
+    {
+        $parts = parse_url($url);
+
+        if (!$parts || empty($parts['host'])) {
+            return $url;
+        }
+
+        $host = $parts['host'];
+        $path = $parts['path'] ?? '';
+
+        if (!str_contains($host, 'fonts.google.com')) {
+            return $url;
+        }
+
+        if ($path === '/share' && !empty($parts['query'])) {
+            parse_str($parts['query'], $query);
+            $family = $query['selection.family'] ?? $query['family'] ?? null;
+
+            if ($family) {
+                $family = str_replace(' ', '+', $family);
+
+                return "https://fonts.googleapis.com/css2?family={$family}&display=swap";
+            }
+        }
+
+        if (str_starts_with($path, '/specimen/')) {
+            $family = trim(str_replace('/specimen/', '', $path), '/');
+            $family = str_replace(' ', '+', $family);
+
+            return "https://fonts.googleapis.com/css2?family={$family}&display=swap";
+        }
+
+        return $url;
     }
 }
