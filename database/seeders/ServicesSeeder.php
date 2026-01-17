@@ -19,7 +19,7 @@ class ServicesSeeder extends Seeder
         $defaults = [
             'services_title' => 'Servicios que se adaptan a tu negocio',
             'services_intro' => 'Soluciones flexibles para acompañar cada etapa de tu tienda online.',
-            'services_cta_label' => 'Ver todos los servicios',
+            'services_cta_label' => 'admin@codecima.com',
             'services_cta_url' => '#servicios',
             'services_show_section' => true,
             'services_show_cta' => true,
