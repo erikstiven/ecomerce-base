@@ -4,7 +4,7 @@
         <ol class="flex flex-wrap text-sm text-slate-700">
             @foreach ($breadcrumbs as $item)
                 <li
-                    class="leading-normal {{ !$loop->first ? "pl-2 before:float-left before:pr-2 before:content-['/']" : '' }}">
+                    class="leading-normal {{ !$loop->first ? "pl-2 before:float-left before:pr-2 before:text-slate-400 before:content-['›']" : '' }}">
                     @if (isset($item['route']))
                         <a href="{{ $item['route'] }}" class="hover:underline opacity-70">
                             {{ $item['name'] }}

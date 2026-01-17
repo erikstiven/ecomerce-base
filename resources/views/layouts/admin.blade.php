@@ -41,6 +41,17 @@
                 @endisset
             </div>
 
+            @if ($errors->any())
+                <div class="mt-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                    <p class="font-semibold">Revisa los datos ingresados:</p>
+                    <ul class="mt-2 list-disc ps-5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="mt-4 p-4 border-2 border-gray-200 border-dashed rounded-lg">
                 {{ $slot }}
             </div>
