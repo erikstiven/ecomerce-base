@@ -81,5 +81,16 @@ class CompanySetting extends Model
         'footer_muted',
         'typography_font_family',
         'typography_font_url',
+        'payphone_enabled',
+        'payphone_token',
+        'payphone_store_id',
+        'payphone_environment',
+        'payphone_domain',
+        'payphone_api_url',
+    ];
+
+    protected $casts = [
+        'payphone_enabled' => 'boolean',
+        'payphone_token' => 'encrypted',
     ];
 }

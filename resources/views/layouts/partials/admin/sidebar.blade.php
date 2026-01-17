@@ -33,7 +33,8 @@
                 || request()->routeIs('admin.settings.company.services.*')
                 || request()->routeIs('admin.settings.company.faqs.*')
                 || request()->routeIs('admin.settings.footer.*')
-                || request()->routeIs('admin.settings.appearance.*'),
+                || request()->routeIs('admin.settings.appearance.*')
+                || request()->routeIs('admin.settings.payphone.*'),
             'children' => [
                 [
                     'name' => 'Quiénes somos',
@@ -70,6 +71,12 @@
                     'icon' => 'palette',
                     'route' => route('admin.settings.appearance.edit'),
                     'active' => request()->routeIs('admin.settings.appearance.*'),
+                ],
+                [
+                    'name' => 'PayPhone',
+                    'icon' => 'credit-card',
+                    'route' => route('admin.settings.payphone.edit'),
+                    'active' => request()->routeIs('admin.settings.payphone.*'),
                 ],
             ],
         ],

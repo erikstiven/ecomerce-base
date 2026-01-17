@@ -11,6 +11,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Str;
 use App\Models\Address;
 use App\Models\Variant;
+use App\Models\CompanySetting;
 use Illuminate\Support\Facades\Log;
 
 
@@ -63,6 +64,8 @@ class CheckoutController extends Controller
                 ->with('error', 'Algunos productos en tu carrito no tienen suficiente stock.');
         }
 
+        $payphone = $this->resolvePayphoneSettings();
+
         // Obtener contenido del carrito y totales
         $cart     = Cart::instance('shopping');
         $content  = $cart->content();
@@ -75,6 +78,7 @@ class CheckoutController extends Controller
             'subtotal' => $subtotal,
             'delivery' => $shipping,
             'total'    => $total,
+            'payphone' => $payphone,
         ]);
     }
 
@@ -151,6 +155,17 @@ class CheckoutController extends Controller
                 ->with('error', 'Algunos productos en tu carrito no tienen suficiente stock.');
         }
 
+        $payphone = $this->resolvePayphoneSettings();
+        if (!$payphone['enabled']) {
+            return redirect()->route('checkout.index')
+                ->with('error', 'PayPhone no está habilitado para esta tienda.');
+        }
+
+        if (blank($payphone['token']) || blank($payphone['store_id'])) {
+            return redirect()->route('checkout.index')
+                ->with('error', 'PayPhone no está configurado correctamente. Revisa el token y el store ID.');
+        }
+
         // Generar identificador único para la transacción
         $clientTxId = 'ORD-' . Str::padLeft((string)(now()->timestamp % 1000000), 6, '0') . '-' . Str::uuid();
 
@@ -176,8 +191,8 @@ class CheckoutController extends Controller
         $total    = round($subtotal + $shipping, 2);
 
         $ppParams = [
-            'token'               => config('services.payphone.token'),
-            'storeId'             => config('services.payphone.store_id'),
+            'token'               => $payphone['token'],
+            'storeId'             => $payphone['store_id'],
             'clientTransactionId' => $clientTxId,
             'amount'              => $order->total_cents,
             'amountWithTax'       => 0,
@@ -194,6 +209,7 @@ class CheckoutController extends Controller
             'subtotal' => $subtotal,
             'delivery' => $shipping,
             'total'    => $total,
+            'payphone' => $payphone,
         ]);
     }
 
@@ -213,7 +229,7 @@ class CheckoutController extends Controller
                 ->with('error', 'Transacción inválida.');
         }
 
-        $token    = config('services.payphone.token');
+        $token    = $this->resolvePayphoneSettings()['token'] ?? config('services.payphone.token');
         $response = $this->confirmarTransaccion($id, $clientTxId, $token);
         $result   = json_decode($response, true);
 
@@ -363,5 +379,22 @@ class CheckoutController extends Controller
         curl_close($curl);
 
         return $response;
+    }
+
+    private function resolvePayphoneSettings(): array
+    {
+        $settings = CompanySetting::query()->first();
+        $fallbackToken = config('services.payphone.token');
+        $fallbackStoreId = config('services.payphone.store_id');
+        $fallbackEnabled = filled($fallbackToken) && filled($fallbackStoreId);
+
+        return [
+            'enabled' => (bool) ($settings?->payphone_enabled ?? $fallbackEnabled),
+            'token' => $settings?->payphone_token ?? $fallbackToken,
+            'store_id' => $settings?->payphone_store_id ?? $fallbackStoreId,
+            'environment' => $settings?->payphone_environment ?? 'sandbox',
+            'domain' => $settings?->payphone_domain,
+            'api_url' => $settings?->payphone_api_url ?? config('services.payphone.api_url'),
+        ];
     }
 }

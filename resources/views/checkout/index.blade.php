@@ -12,8 +12,12 @@
         </div>
     @endif
 
+    @php
+        $payphoneEnabled = $payphone['enabled'] ?? false;
+    @endphp
+
     {{-- Abre el modal automáticamente cuando $pp exista --}}
-    <div class="-mb-16 text-gray-700" x-data="{ pago: 1, mostrarModal: {{ isset($pp) ? 'true' : 'false' }} }">
+    <div class="-mb-16 text-gray-700" x-data="{ pago: {{ $payphoneEnabled ? 1 : 2 }}, mostrarModal: {{ isset($pp) ? 'true' : 'false' }} }">
 
         <div class="grid grid-cols-1 lg:grid-cols-2">
             <div class="cols-span-1 bg-white">
@@ -22,21 +26,23 @@
 
                     <div class="shadow rounded-lg overflow-hidden border border-gray-400">
                         <ul class="divide-y divide-gray-400">
-                            <li>
-                                <label class="p-4 flex items-center">
-                                    <input type="radio" value="1" x-model="pago" class="cursor-pointer">
-                                    <span class="ml-2">Tarjeta de crédito</span>
-                                    <img src="https://codersfree.com/img/payments/credit-cards.png" alt=""
-                                        class="h-6 ml-auto">
-                                </label>
+                            @if ($payphoneEnabled)
+                                <li>
+                                    <label class="p-4 flex items-center">
+                                        <input type="radio" value="1" x-model="pago" class="cursor-pointer">
+                                        <span class="ml-2">Tarjeta de crédito</span>
+                                        <img src="https://codersfree.com/img/payments/credit-cards.png" alt=""
+                                            class="h-6 ml-auto">
+                                    </label>
 
-                                <div class="p-4 bg-gray-100 text-center border-t border-gray-400" x-show="pago == 1">
-                                    <i class="fa-regular fa-credit-card text-9xl"></i>
-                                    <p class="mt-2">
-                                        Luego de dar click en "Pagar" se creará tu orden y se abrirá la pasarela de pago
-                                    </p>
-                                </div>
-                            </li>
+                                    <div class="p-4 bg-gray-100 text-center border-t border-gray-400" x-show="pago == 1">
+                                        <i class="fa-regular fa-credit-card text-9xl"></i>
+                                        <p class="mt-2">
+                                            Luego de dar click en "Pagar" se creará tu orden y se abrirá la pasarela de pago
+                                        </p>
+                                    </div>
+                                </li>
+                            @endif
 
                             <li>
                                 <label class="p-4 flex items-center">
@@ -119,14 +125,16 @@
 
 
                     {{-- El botón crea la orden y vuelve con $pp para abrir la pasarela --}}
-                    <div class="mt-4" x-show="pago == 1">
-                        <form action="{{ route('checkout.payphone.start') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-gradient-purple text-white rounded w-full">
-                                Confirmar y Pagar
-                            </button>
-                        </form>
-                    </div>
+                    @if ($payphoneEnabled)
+                        <div class="mt-4" x-show="pago == 1">
+                            <form action="{{ route('checkout.payphone.start') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-gradient-purple text-white rounded w-full">
+                                    Confirmar y Pagar
+                                </button>
+                            </form>
+                        </div>
+                    @endif
 
                 </div>
             </div>
@@ -164,7 +172,7 @@
         @endphp
 
         {{-- Inicializar la cajita SOLO cuando el controlador haya creado la orden y devuelto $pp --}}
-        @isset($pp)
+        @if ($payphoneEnabled && isset($pp))
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
                     const el = document.getElementById('pp-button');
@@ -211,7 +219,7 @@
                     }
                 });
             </script>
-        @endisset
+        @endif
     @endpush
 
 </x-app-layout>
