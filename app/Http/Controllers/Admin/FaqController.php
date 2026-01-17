@@ -86,8 +86,8 @@ class FaqController extends Controller
     public function updateSettings(Request $request)
     {
         $validated = $request->validate([
-            'faq_title' => ['nullable', 'string', 'max:255'],
-            'faq_content' => ['nullable', 'string', 'max:2000'],
+            'faq_title' => ['nullable', 'string', 'max:255', 'required_if:faq_show_section,1'],
+            'faq_content' => ['nullable', 'string', 'max:2000', 'required_if:faq_show_section,1'],
             'faq_show_section' => ['nullable'],
         ]);
 

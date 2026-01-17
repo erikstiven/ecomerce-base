@@ -33,7 +33,9 @@
                 || request()->routeIs('admin.settings.company.services.*')
                 || request()->routeIs('admin.settings.company.faqs.*')
                 || request()->routeIs('admin.settings.footer.*')
-                || request()->routeIs('admin.settings.appearance.*'),
+                || request()->routeIs('admin.settings.appearance.*')
+                || request()->routeIs('admin.settings.payphone.*')
+                || request()->routeIs('admin.settings.shipping-zones.*'),
             'children' => [
                 [
                     'name' => 'Quiénes somos',
@@ -70,6 +72,18 @@
                     'icon' => 'palette',
                     'route' => route('admin.settings.appearance.edit'),
                     'active' => request()->routeIs('admin.settings.appearance.*'),
+                ],
+                [
+                    'name' => 'Envíos',
+                    'icon' => 'truck',
+                    'route' => route('admin.settings.shipping-zones.index'),
+                    'active' => request()->routeIs('admin.settings.shipping-zones.*'),
+                ],
+                [
+                    'name' => 'PayPhone',
+                    'icon' => 'credit-card',
+                    'route' => route('admin.settings.payphone.edit'),
+                    'active' => request()->routeIs('admin.settings.payphone.*'),
                 ],
             ],
         ],

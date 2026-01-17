@@ -30,6 +30,7 @@
 
         <section>
             <h2 class="text-sm font-semibold text-slate-700">Sección en la landing</h2>
+            <p class="mt-2 text-xs text-slate-500">Los campos con <span class="font-semibold text-red-500">*</span> son obligatorios cuando el bloque está visible.</p>
             <form method="POST" action="{{ route('admin.settings.company.faqs.settings') }}" class="mt-4">
                 @csrf
                 @method('PUT')
@@ -38,20 +39,22 @@
 
                 <div class="grid gap-6 md:grid-cols-2">
                     <div class="md:col-span-2 flex items-center gap-2">
-                        <x-checkbox name="faq_show_section" :checked="old('faq_show_section', $settings?->faq_show_section ?? true)" />
+                        <x-checkbox name="faq_show_section" :checked="(bool) old('faq_show_section', $settings?->faq_show_section ?? true)" />
                         <x-label>Mostrar bloque de FAQ</x-label>
                     </div>
 
                     <div class="md:col-span-2">
-                        <x-label class="mt-2">Título de sección</x-label>
-                        <x-input class="w-full" name="faq_title" value="{{ old('faq_title', $settings?->faq_title) }}" />
-                        <p class="mt-1 text-xs text-slate-500">Ejemplo: Preguntas frecuentes.</p>
+                        <x-label class="mt-2">Título de sección <span class="text-red-500">*</span></x-label>
+                        <x-input class="w-full" name="faq_title" value="{{ old('faq_title', $settings?->faq_title) }}"
+                            placeholder="Ej: Preguntas frecuentes" />
+                        <p class="mt-1 text-xs text-slate-500">Usa un título claro para la sección.</p>
                     </div>
 
                     <div class="md:col-span-2">
-                        <x-label class="mt-2">Texto introductorio</x-label>
-                        <x-textarea class="w-full" name="faq_content" rows="3">{{ old('faq_content', $settings?->faq_content) }}</x-textarea>
-                        <p class="mt-1 text-xs text-slate-500">Resumen corto para contextualizar las preguntas.</p>
+                        <x-label class="mt-2">Texto introductorio <span class="text-red-500">*</span></x-label>
+                        <x-textarea class="w-full" name="faq_content" rows="3"
+                            placeholder="Ej: Encuentra respuestas rápidas a las dudas más comunes.">{{ old('faq_content', $settings?->faq_content) }}</x-textarea>
+                        <p class="mt-1 text-xs text-slate-500">Resumen breve para contextualizar las preguntas.</p>
                     </div>
                 </div>
 

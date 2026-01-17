@@ -12,8 +12,13 @@
         </div>
     @endif
 
+    @php
+        $payphoneEnabled = $payphone['enabled'] ?? false;
+        $bankDepositEnabled = $bankDeposit['enabled'] ?? true;
+    @endphp
+
     {{-- Abre el modal automáticamente cuando $pp exista --}}
-    <div class="-mb-16 text-gray-700" x-data="{ pago: 1, mostrarModal: {{ isset($pp) ? 'true' : 'false' }} }">
+    <div class="-mb-16 text-gray-700" x-data="{ pago: {{ $payphoneEnabled ? 1 : 2 }}, mostrarModal: {{ isset($pp) ? 'true' : 'false' }} }">
 
         <div class="grid grid-cols-1 lg:grid-cols-2">
             <div class="cols-span-1 bg-white">
@@ -22,48 +27,67 @@
 
                     <div class="shadow rounded-lg overflow-hidden border border-gray-400">
                         <ul class="divide-y divide-gray-400">
-                            <li>
-                                <label class="p-4 flex items-center">
-                                    <input type="radio" value="1" x-model="pago" class="cursor-pointer">
-                                    <span class="ml-2">Tarjeta de crédito</span>
-                                    <img src="https://codersfree.com/img/payments/credit-cards.png" alt=""
-                                        class="h-6 ml-auto">
-                                </label>
+                            @if ($payphoneEnabled)
+                                <li>
+                                    <label class="p-4 flex items-center">
+                                        <input type="radio" value="1" x-model="pago" class="cursor-pointer">
+                                        <span class="ml-2">Tarjeta de crédito</span>
+                                        <img src="https://codersfree.com/img/payments/credit-cards.png" alt=""
+                                            class="h-6 ml-auto">
+                                    </label>
 
-                                <div class="p-4 bg-gray-100 text-center border-t border-gray-400" x-show="pago == 1">
-                                    <i class="fa-regular fa-credit-card text-9xl"></i>
-                                    <p class="mt-2">
-                                        Luego de dar click en "Pagar" se creará tu orden y se abrirá la pasarela de pago
-                                    </p>
-                                </div>
-                            </li>
-
-                            <li>
-                                <label class="p-4 flex items-center">
-                                    <input type="radio" value="2" x-model="pago" class="cursor-pointer">
-                                    <span class="ml-2">Depósito bancario</span>
-                                </label>
-
-                                <div x-show="pago == 2" x-cloak
-                                    class="p-4 bg-gray-100 text-sm border-t border-gray-400">
-                                    <div class="max-w-md mx-auto space-y-1">
-                                        <p><strong>1. Pago por depósito o transferencia bancaria:</strong></p>
-                                        <p>- Banco Pichincha</p>
-                                        <p>- Cuenta de ahorro transaccional</p>
-                                        <p>- Número de cuenta: 2208765620</p>
-                                        <p></p>
-                                        <p><strong>2. Enviar comprobante de pago:</strong></p>
-                                            <input type="button" value="Enviar por WhatsApp">
-                                            
-                                        <a href="https://wa.me/593979018689?text=Hola%2C%20me%20interesan%20los%20servicios%20y%20productos%20que%20muestran%20en%20su%20p%C3%A1gina%20web." class="text-blue-600 underline"
-                                                target="_blank">
-                                                +593 97 901 86 89
-                                        </a>
+                                    <div class="p-4 bg-gray-100 text-center border-t border-gray-400" x-show="pago == 1">
+                                        <i class="fa-regular fa-credit-card text-9xl"></i>
+                                        <p class="mt-2">
+                                            Luego de dar click en "Pagar" se creará tu orden y se abrirá la pasarela de pago
                                         </p>
                                     </div>
-                                </div>
-                            </li>
+                                </li>
+                            @endif
+
+                            @if ($bankDepositEnabled)
+                                <li>
+                                    <label class="p-4 flex items-center">
+                                        <input type="radio" value="2" x-model="pago" class="cursor-pointer">
+                                        <span class="ml-2">Depósito bancario</span>
+                                    </label>
+
+                                    <div x-show="pago == 2" x-cloak
+                                        class="p-4 bg-gray-100 text-sm border-t border-gray-400">
+                                        <div class="max-w-md mx-auto space-y-1">
+                                            <p><strong>1. Pago por depósito o transferencia bancaria:</strong></p>
+                                            <p>- Banco {{ $bankDeposit['bank_name'] ?? 'Banco Pichincha' }}</p>
+                                            <p>- {{ $bankDeposit['account_type'] ?? 'Cuenta de ahorro transaccional' }}</p>
+                                            <p>- Número de cuenta: {{ $bankDeposit['account_number'] ?? '2208765620' }}</p>
+                                            @if (!empty($bankDeposit['instructions']))
+                                                <p class="pt-2 text-slate-600">{{ $bankDeposit['instructions'] }}</p>
+                                            @endif
+                                            <p class="pt-2"><strong>2. Enviar comprobante de pago:</strong></p>
+                                            @php
+                                                $whatsapp = $bankDeposit['whatsapp'] ?? '';
+                                                $whatsappMessage = $bankDeposit['whatsapp_message'] ?? '';
+                                                $whatsappClean = preg_replace('/[^0-9]/', '', (string) $whatsapp);
+                                                $whatsappUrl = $whatsappClean
+                                                    ? 'https://wa.me/' . $whatsappClean . '?text=' . urlencode($whatsappMessage)
+                                                    : null;
+                                            @endphp
+                                            @if ($whatsappUrl)
+                                                <a href="{{ $whatsappUrl }}" class="text-blue-600 underline" target="_blank">
+                                                    {{ $whatsapp }}
+                                                </a>
+                                            @else
+                                                <p class="text-slate-500">Configura un número de WhatsApp para recibir comprobantes.</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </li>
+                            @endif
                         </ul>
+                        @if (! $payphoneEnabled && ! $bankDepositEnabled)
+                            <div class="p-4 bg-gray-100 text-sm text-slate-600">
+                                No hay métodos de pago disponibles. Configura PayPhone o depósito bancario desde el panel.
+                            </div>
+                        @endif
                     </div>
 
                 </div>
@@ -119,14 +143,16 @@
 
 
                     {{-- El botón crea la orden y vuelve con $pp para abrir la pasarela --}}
-                    <div class="mt-4" x-show="pago == 1">
-                        <form action="{{ route('checkout.payphone.start') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-gradient-purple text-white rounded w-full">
-                                Confirmar y Pagar
-                            </button>
-                        </form>
-                    </div>
+                    @if ($payphoneEnabled)
+                        <div class="mt-4" x-show="pago == 1">
+                            <form action="{{ route('checkout.payphone.start') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-gradient-purple text-white rounded w-full">
+                                    Confirmar y Pagar
+                                </button>
+                            </form>
+                        </div>
+                    @endif
 
                 </div>
             </div>
@@ -164,7 +190,7 @@
         @endphp
 
         {{-- Inicializar la cajita SOLO cuando el controlador haya creado la orden y devuelto $pp --}}
-        @isset($pp)
+        @if ($payphoneEnabled && isset($pp))
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
                     const el = document.getElementById('pp-button');
@@ -211,7 +237,7 @@
                     }
                 });
             </script>
-        @endisset
+        @endif
     @endpush
 
 </x-app-layout>

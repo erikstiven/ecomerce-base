@@ -34,14 +34,16 @@
 
             <div class="grid gap-6 md:grid-cols-2">
                 <div class="md:col-span-2">
-                    <x-label class="mt-2">Pregunta</x-label>
-                    <x-input class="w-full" name="question" value="{{ old('question', $faq->question) }}" required />
+                    <x-label class="mt-2">Pregunta <span class="text-red-500">*</span></x-label>
+                    <x-input class="w-full" name="question" value="{{ old('question', $faq->question) }}" required
+                        placeholder="Ej: ¿Cuál es el tiempo de entrega?" />
                     <p class="mt-1 text-xs text-slate-500">Escribe la duda principal del cliente.</p>
                 </div>
 
                 <div class="md:col-span-2">
-                    <x-label class="mt-2">Respuesta</x-label>
-                    <x-textarea class="w-full" name="answer" rows="5" required>{{ old('answer', $faq->answer) }}</x-textarea>
+                    <x-label class="mt-2">Respuesta <span class="text-red-500">*</span></x-label>
+                    <x-textarea class="w-full" name="answer" rows="5" required
+                        placeholder="Ej: Entregamos en 24-48 horas hábiles.">{{ old('answer', $faq->answer) }}</x-textarea>
                     <p class="mt-1 text-xs text-slate-500">Usa un texto claro y directo para resolver la duda.</p>
                 </div>
 

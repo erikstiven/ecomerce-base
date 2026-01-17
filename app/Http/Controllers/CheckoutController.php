@@ -11,6 +11,8 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Str;
 use App\Models\Address;
 use App\Models\Variant;
+use App\Models\CompanySetting;
+use App\Models\ShippingZone;
 use Illuminate\Support\Facades\Log;
 
 
@@ -63,11 +65,14 @@ class CheckoutController extends Controller
                 ->with('error', 'Algunos productos en tu carrito no tienen suficiente stock.');
         }
 
+        $payphone = $this->resolvePayphoneSettings();
+        $bankDeposit = $this->resolveBankDepositSettings();
+        $shipping = $this->resolveShippingRate();
+
         // Obtener contenido del carrito y totales
         $cart     = Cart::instance('shopping');
         $content  = $cart->content();
         $subtotal = (float) preg_replace('/[^\d\.]/', '', (string) $cart->subtotal(2, '.', ''));
-        $shipping = 5.00;
         $total    = round($subtotal + $shipping, 2);
 
         return view('checkout.index', [
@@ -75,6 +80,8 @@ class CheckoutController extends Controller
             'subtotal' => $subtotal,
             'delivery' => $shipping,
             'total'    => $total,
+            'payphone' => $payphone,
+            'bankDeposit' => $bankDeposit,
         ]);
     }
 
@@ -99,7 +106,7 @@ class CheckoutController extends Controller
 
             // Se calcula el subtotal limpiando cualquier formato
             $subtotal = (float) preg_replace('/[^\d\.]/', '', (string) $cart->subtotal(2, '.', ''));
-            $shipping = 5.00;
+            $shipping = $this->resolveShippingRate();
             $total    = round($subtotal + $shipping, 2);
 
             $order = new Order();
@@ -151,6 +158,17 @@ class CheckoutController extends Controller
                 ->with('error', 'Algunos productos en tu carrito no tienen suficiente stock.');
         }
 
+        $payphone = $this->resolvePayphoneSettings();
+        if (!$payphone['enabled']) {
+            return redirect()->route('checkout.index')
+                ->with('error', 'PayPhone no está habilitado para esta tienda.');
+        }
+
+        if (blank($payphone['token']) || blank($payphone['store_id'])) {
+            return redirect()->route('checkout.index')
+                ->with('error', 'PayPhone no está configurado correctamente. Revisa el token y el store ID.');
+        }
+
         // Generar identificador único para la transacción
         $clientTxId = 'ORD-' . Str::padLeft((string)(now()->timestamp % 1000000), 6, '0') . '-' . Str::uuid();
 
@@ -172,12 +190,12 @@ class CheckoutController extends Controller
         $cart     = Cart::instance('shopping');
         $content  = $cart->content();
         $subtotal = (float) preg_replace('/[^\d\.]/', '', (string) $cart->subtotal(2, '.', ''));
-        $shipping = 5.00;
+        $shipping = $this->resolveShippingRate();
         $total    = round($subtotal + $shipping, 2);
 
         $ppParams = [
-            'token'               => config('services.payphone.token'),
-            'storeId'             => config('services.payphone.store_id'),
+            'token'               => $payphone['token'],
+            'storeId'             => $payphone['store_id'],
             'clientTransactionId' => $clientTxId,
             'amount'              => $order->total_cents,
             'amountWithTax'       => 0,
@@ -194,6 +212,8 @@ class CheckoutController extends Controller
             'subtotal' => $subtotal,
             'delivery' => $shipping,
             'total'    => $total,
+            'payphone' => $payphone,
+            'bankDeposit' => $this->resolveBankDepositSettings(),
         ]);
     }
 
@@ -213,7 +233,7 @@ class CheckoutController extends Controller
                 ->with('error', 'Transacción inválida.');
         }
 
-        $token    = config('services.payphone.token');
+        $token    = $this->resolvePayphoneSettings()['token'] ?? config('services.payphone.token');
         $response = $this->confirmarTransaccion($id, $clientTxId, $token);
         $result   = json_decode($response, true);
 
@@ -363,5 +383,76 @@ class CheckoutController extends Controller
         curl_close($curl);
 
         return $response;
+    }
+
+    private function resolvePayphoneSettings(): array
+    {
+        $settings = CompanySetting::query()->first();
+        $fallbackToken = config('services.payphone.token');
+        $fallbackStoreId = config('services.payphone.store_id');
+        $fallbackEnabled = filled($fallbackToken) && filled($fallbackStoreId);
+
+        return [
+            'enabled' => (bool) ($settings?->payphone_enabled ?? $fallbackEnabled),
+            'token' => $settings?->payphone_token ?? $fallbackToken,
+            'store_id' => $settings?->payphone_store_id ?? $fallbackStoreId,
+            'environment' => $settings?->payphone_environment ?? 'sandbox',
+            'domain' => $settings?->payphone_domain,
+            'api_url' => $settings?->payphone_api_url ?? config('services.payphone.api_url'),
+        ];
+    }
+
+    private function resolveBankDepositSettings(): array
+    {
+        $settings = CompanySetting::query()->first();
+
+        return [
+            'enabled' => (bool) ($settings?->bank_deposit_enabled ?? true),
+            'bank_name' => $settings?->bank_name ?? 'Banco Pichincha',
+            'account_type' => $settings?->bank_account_type ?? 'Cuenta de ahorro transaccional',
+            'account_number' => $settings?->bank_account_number ?? '2208765620',
+            'instructions' => $settings?->bank_transfer_instructions,
+            'whatsapp' => $settings?->bank_whatsapp ?? '+593979018689',
+            'whatsapp_message' => $settings?->bank_whatsapp_message
+                ?? 'Hola, adjunto el comprobante de mi pedido.',
+        ];
+    }
+
+    private function resolveShippingRate(): float
+    {
+        $address = Address::where('user_id', Auth::id())
+            ->where('default', true)
+            ->first();
+
+        if (!$address) {
+            return 0.00;
+        }
+
+        $province = mb_strtolower(trim((string) $address->province));
+        $city = mb_strtolower(trim((string) $address->city));
+
+        $query = ShippingZone::query()
+            ->where('is_active', true);
+
+        $zone = $query->where('province', $province)
+            ->where('city', $city)
+            ->first();
+
+        if (!$zone) {
+            $zone = ShippingZone::query()
+                ->where('is_active', true)
+                ->where('province', $province)
+                ->whereNull('city')
+                ->first();
+        }
+
+        if (!$zone) {
+            $zone = ShippingZone::query()
+                ->where('is_active', true)
+                ->where('is_default', true)
+                ->first();
+        }
+
+        return (float) ($zone?->price ?? 0.00);
     }
 }

@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DriverController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ShipmentController;
+use App\Http\Controllers\Admin\PayphoneSettingController;
+use App\Http\Controllers\Admin\ShippingZoneController;
 use Database\Seeders\OptionSeeder;
 
 Route::get('/', [DashboardController::class, 'index'])
@@ -38,6 +40,11 @@ Route::get('/settings/company/location', [CompanyProfileController::class, 'edit
     ->name('settings.company.location.edit');
 Route::put('/settings/company/location', [CompanyProfileController::class, 'updateLocation'])
     ->name('settings.company.location.update');
+Route::resource('/settings/shipping-zones', ShippingZoneController::class)
+    ->names('settings.shipping-zones')
+    ->except(['show']);
+Route::get('/settings/payphone', [PayphoneSettingController::class, 'edit'])->name('settings.payphone.edit');
+Route::put('/settings/payphone', [PayphoneSettingController::class, 'update'])->name('settings.payphone.update');
 Route::resource('/settings/company/services', CompanyServiceController::class)
     ->names('settings.company.services')
     ->except(['show']);

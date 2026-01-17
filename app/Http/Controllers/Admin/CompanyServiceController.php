@@ -24,10 +24,10 @@ class CompanyServiceController extends Controller
     public function updateSettings(Request $request)
     {
         $validated = $request->validate([
-            'services_title' => ['nullable', 'string', 'max:255'],
-            'services_intro' => ['nullable', 'string', 'max:2000'],
-            'services_cta_label' => ['nullable', 'string', 'max:255'],
-            'services_cta_url' => ['nullable', 'string', 'max:255'],
+            'services_title' => ['nullable', 'string', 'max:255', 'required_if:services_show_section,1'],
+            'services_intro' => ['nullable', 'string', 'max:2000', 'required_if:services_show_section,1'],
+            'services_cta_label' => ['nullable', 'string', 'max:255', 'required_if:services_show_cta,1'],
+            'services_cta_url' => ['nullable', 'url', 'max:255', 'required_if:services_show_cta,1'],
             'services_show_section' => ['nullable'],
             'services_show_cta' => ['nullable'],
         ]);
